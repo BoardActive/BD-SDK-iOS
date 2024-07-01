@@ -1,0 +1,31 @@
+
+platform :ios, '10.0'
+
+plugin 'cocoapods-binary'
+use_frameworks!
+
+target 'BrandDrop' do
+  pod 'BAKit-iOS', :path => '../'
+ 
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Crashlytics'
+  
+  pod 'MaterialComponents'
+  
+  target 'BrandDrop_Tests' do
+    inherit! :search_paths
+    pod 'Quick'
+    pod 'Nimble'
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      cflags = config.build_settings['OTHER_CFLAGS'] || ['$(inherited)']
+      cflags << '-fembed-bitcode'
+      config.build_settings['OTHER_CFLAGS'] = cflags
+    end
+  end
+end

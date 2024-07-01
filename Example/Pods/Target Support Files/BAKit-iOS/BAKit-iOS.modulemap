@@ -1,0 +1,6 @@
+framework module BAKit {
+  umbrella header "BAKit-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
