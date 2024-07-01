@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IIU-bE-ARe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IIU-bE-ARe">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -18,7 +18,7 @@
         <!--NotificationVC-->
         <scene sceneID="MYg-ND-MjH">
             <objects>
-                <tableViewController storyboardIdentifier="NotificationVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kDC-M5-biX" customClass="NotificationVC" customModule="AdDrop" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NotificationVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kDC-M5-biX" customClass="NotificationVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vlf-5a-H25">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,7 +26,7 @@
                         <sections>
                             <tableViewSection id="Zlh-qv-waq">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="mainImageViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="mainImageViewCell" rowHeight="347" id="aiw-PH-cj9" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="mainImageViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="mainImageViewCell" rowHeight="347" id="aiw-PH-cj9" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="414" height="347"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aiw-PH-cj9" id="4kd-eC-rQq">
@@ -53,7 +53,7 @@
                                             <outlet property="notificationMainImageView" destination="Pef-kq-dT2" id="RP0-6E-Vqm"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell1" rowHeight="15" id="AfL-HT-Njc" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell1" rowHeight="15" id="AfL-HT-Njc" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="397" width="414" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AfL-HT-Njc" id="rsB-HJ-4Xi">
@@ -61,7 +61,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="titleBodyCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="titleBodyCell" rowHeight="145" id="YNz-Ly-hnV" customClass="TitleLabelTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="titleBodyCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="titleBodyCell" rowHeight="145" id="YNz-Ly-hnV" customClass="TitleLabelTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="412" width="414" height="145"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YNz-Ly-hnV" id="2UL-hV-dNY">
@@ -101,7 +101,7 @@
                                             <outlet property="titleLabel" destination="zkt-kr-SSw" id="yT9-Gs-feN"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell2" rowHeight="15" id="EHB-pv-ah4" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell2" rowHeight="15" id="EHB-pv-ah4" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="557" width="414" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EHB-pv-ah4" id="py8-5s-VaX">
@@ -109,7 +109,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="startsEndsCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="startsEndsCell" rowHeight="82" id="jKx-d3-LRp" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="startsEndsCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="startsEndsCell" rowHeight="82" id="jKx-d3-LRp" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="572" width="414" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jKx-d3-LRp" id="nJe-hg-nRr">
@@ -162,7 +162,7 @@
                                             <outlet property="startDate" destination="cL4-xx-nZd" id="9O6-Do-yhK"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell3" rowHeight="15" id="cYG-MV-9Ey" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell3" rowHeight="15" id="cYG-MV-9Ey" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="654" width="414" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cYG-MV-9Ey" id="z0M-hg-kbp">
@@ -170,7 +170,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="contactUsCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactUsCell" rowHeight="122" id="pa5-3c-uDK" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="contactUsCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactUsCell" rowHeight="122" id="pa5-3c-uDK" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="669" width="414" height="122"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pa5-3c-uDK" id="QEq-7o-0sn">
@@ -252,7 +252,7 @@
                                             <outlet property="homepageButton" destination="E5v-Lg-G39" id="ih6-J9-ew5"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell4" rowHeight="15" id="k9v-es-ncm" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell4" rowHeight="15" id="k9v-es-ncm" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="791" width="414" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k9v-es-ncm" id="1Qa-cc-F9n">
@@ -260,7 +260,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="findUsOnlineCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="findUsOnlineCell" rowHeight="110" id="fsm-Ka-rha" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="findUsOnlineCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="findUsOnlineCell" rowHeight="110" id="fsm-Ka-rha" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="806" width="414" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fsm-Ka-rha" id="dBa-hy-VPI">
@@ -351,7 +351,7 @@
                                             <outlet property="youtubeButton" destination="MnO-Ia-YIq" id="GZb-fR-q2t"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell5" rowHeight="15" id="sNf-ci-T4Q" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paddingCell5" rowHeight="15" id="sNf-ci-T4Q" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="916" width="414" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sNf-ci-T4Q" id="OD3-XE-MYo">
@@ -359,7 +359,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="claimYourReward" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="claimYourReward" rowHeight="330" id="GcS-sE-NXE" customClass="CustomTableViewCell" customModule="AdDrop" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="claimYourReward" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="claimYourReward" rowHeight="330" id="GcS-sE-NXE" customClass="CustomTableViewCell" customModule="BrandDrop" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="931" width="414" height="330"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GcS-sE-NXE" id="rAH-Jr-hII">
@@ -409,7 +409,7 @@
         <!--Notification Collection View Controller-->
         <scene sceneID="pJ7-FX-mRn">
             <objects>
-                <collectionViewController storyboardIdentifier="NotificationCollectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IIU-bE-ARe" customClass="NotificationCollectionViewController" customModule="AdDrop" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="NotificationCollectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IIU-bE-ARe" customClass="NotificationCollectionViewController" customModule="BrandDrop" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="xYD-r4-i97">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -421,7 +421,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageViewCell" id="1At-8T-2vC" customClass="ImageCollectionViewCell" customModule="AdDrop" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageViewCell" id="1At-8T-2vC" customClass="ImageCollectionViewCell" customModule="BrandDrop" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="194"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -459,7 +459,7 @@
                                     <outlet property="imageView" destination="XM7-JA-aO7" id="jqS-bd-sQa"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="titleLabelContainer" id="Tee-kQ-0o5" customClass="TitleCollectionViewCell" customModule="AdDrop" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="titleLabelContainer" id="Tee-kQ-0o5" customClass="TitleCollectionViewCell" customModule="BrandDrop" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="204" width="414" height="100.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -505,7 +505,7 @@
                                     <outlet property="titleLabel" destination="jzU-G9-Ahj" id="nQm-rv-Qf6"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="promoDateReuseIdentifier" id="ANL-mR-Eed" customClass="PromodDateCollectionViewCell" customModule="AdDrop" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="promoDateReuseIdentifier" id="ANL-mR-Eed" customClass="PromodDateCollectionViewCell" customModule="BrandDrop" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="314.5" width="414" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -567,7 +567,7 @@
                                     <outlet property="startDateLabel" destination="CyY-xP-UOd" id="cEn-tM-gWI"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="contactUsReuseIdentifier" id="xGR-I3-b15" customClass="ContactUsCollectionViewCell" customModule="AdDrop" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="contactUsReuseIdentifier" id="xGR-I3-b15" customClass="ContactUsCollectionViewCell" customModule="BrandDrop" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="422.5" width="414" height="146.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -656,7 +656,7 @@
                                     <outlet property="homepageButton" destination="4Hx-xd-60b" id="FvD-Qn-ghW"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="findUsOnlineReuseIdentifier" id="J6G-Zf-gjz" customClass="FindUsOnlineCollectionViewCell" customModule="AdDrop" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="findUsOnlineReuseIdentifier" id="J6G-Zf-gjz" customClass="FindUsOnlineCollectionViewCell" customModule="BrandDrop" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="579" width="414" height="146.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -748,7 +748,7 @@
                                     <outlet property="youTubeButton" destination="dgF-M3-cWz" id="F3Y-wE-lPa"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="qrCodeCellReuseIdentifier" id="7Uy-Fu-qsK" customClass="QRCollectionViewCell" customModule="AdDrop" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="qrCodeCellReuseIdentifier" id="7Uy-Fu-qsK" customClass="QRCollectionViewCell" customModule="BrandDrop" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="735.5" width="414" height="298"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
