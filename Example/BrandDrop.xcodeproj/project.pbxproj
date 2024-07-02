@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5F2601DDDD90BE95914314C7 /* Pods_BrandDrop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC8B2E936A5B8722267B12E /* Pods_BrandDrop.framework */; };
+		70A40A722C33BF3F0036D6C2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A40A712C33BF3F0036D6C2 /* Extensions.swift */; };
 		70C6BF742C32DB43001F09D9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF392C32DB43001F09D9 /* UserInfo.swift */; };
 		70C6BF752C32DB43001F09D9 /* LoginPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF3A2C32DB43001F09D9 /* LoginPayload.swift */; };
 		70C6BF762C32DB43001F09D9 /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF3B2C32DB43001F09D9 /* Custom.swift */; };
 		70C6BF772C32DB43001F09D9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF3C2C32DB43001F09D9 /* User.swift */; };
-		70C6BF782C32DB43001F09D9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF3D2C32DB43001F09D9 /* Extensions.swift */; };
 		70C6BF792C32DB43001F09D9 /* AttributeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF3E2C32DB43001F09D9 /* AttributeList.swift */; };
 		70C6BF7A2C32DB43001F09D9 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF3F2C32DB43001F09D9 /* Onboarding.swift */; };
 		70C6BF7B2C32DB43001F09D9 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF402C32DB43001F09D9 /* Stock.swift */; };
@@ -33,7 +33,6 @@
 		70C6BF8B2C32DB44001F09D9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF542C32DB43001F09D9 /* HomeViewController.swift */; };
 		70C6BF8C2C32DB44001F09D9 /* UserAttributesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF552C32DB43001F09D9 /* UserAttributesVC.swift */; };
 		70C6BF8D2C32DB44001F09D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF562C32DB43001F09D9 /* LoginViewController.swift */; };
-		70C6BF8E2C32DB44001F09D9 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF572C32DB43001F09D9 /* NotificationViewController.swift */; };
 		70C6BF8F2C32DB44001F09D9 /* StockAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C6BF582C32DB43001F09D9 /* StockAttributes.swift */; };
 		70C6BF902C32DB44001F09D9 /* NotificationBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70C6BF5B2C32DB43001F09D9 /* NotificationBoard.storyboard */; };
 		70C6BF912C32DB44001F09D9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70C6BF5C2C32DB43001F09D9 /* LaunchScreen.xib */; };
@@ -123,11 +122,12 @@
 		674BA48DC6AEDD6E6F832D87 /* BAKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = BAKit.podspec; path = ../BAKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		684BC51028B67D0360F8A894 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		6D67462E1733B99EB747BD41 /* Pods-BrandDrop_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BrandDrop_Tests.debug.xcconfig"; path = "Target Support Files/Pods-BrandDrop_Tests/Pods-BrandDrop_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		70A40A712C33BF3F0036D6C2 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		70A40A732C33C0190036D6C2 /* AdDrop.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AdDrop.entitlements; sourceTree = "<group>"; };
 		70C6BF392C32DB43001F09D9 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		70C6BF3A2C32DB43001F09D9 /* LoginPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPayload.swift; sourceTree = "<group>"; };
 		70C6BF3B2C32DB43001F09D9 /* Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
 		70C6BF3C2C32DB43001F09D9 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		70C6BF3D2C32DB43001F09D9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		70C6BF3E2C32DB43001F09D9 /* AttributeList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeList.swift; sourceTree = "<group>"; };
 		70C6BF3F2C32DB43001F09D9 /* Onboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 		70C6BF402C32DB43001F09D9 /* Stock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
@@ -139,7 +139,6 @@
 		70C6BF472C32DB43001F09D9 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		70C6BF482C32DB43001F09D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70C6BF492C32DB43001F09D9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		70C6BF4A2C32DB43001F09D9 /* AdDrop.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AdDrop.entitlements; sourceTree = "<group>"; };
 		70C6BF4B2C32DB43001F09D9 /* StorageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageObject.swift; sourceTree = "<group>"; };
 		70C6BF4C2C32DB43001F09D9 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		70C6BF4E2C32DB43001F09D9 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -149,7 +148,6 @@
 		70C6BF542C32DB43001F09D9 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		70C6BF552C32DB43001F09D9 /* UserAttributesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAttributesVC.swift; sourceTree = "<group>"; };
 		70C6BF562C32DB43001F09D9 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		70C6BF572C32DB43001F09D9 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		70C6BF582C32DB43001F09D9 /* StockAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockAttributes.swift; sourceTree = "<group>"; };
 		70C6BF5B2C32DB43001F09D9 /* NotificationBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationBoard.storyboard; sourceTree = "<group>"; };
 		70C6BF5D2C32DB43001F09D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -247,6 +245,7 @@
 			children = (
 				96940A9622FB056800D2303C /* BAKit.xcdatamodeld */,
 				EEA03A7E035B199019AB8F60 /* AppDelegate.swift */,
+				70A40A732C33C0190036D6C2 /* AdDrop.entitlements */,
 				70C6BF372C32DB43001F09D9 /* Branddrop */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -315,7 +314,6 @@
 				70C6BF3A2C32DB43001F09D9 /* LoginPayload.swift */,
 				70C6BF3B2C32DB43001F09D9 /* Custom.swift */,
 				70C6BF3C2C32DB43001F09D9 /* User.swift */,
-				70C6BF3D2C32DB43001F09D9 /* Extensions.swift */,
 				70C6BF3E2C32DB43001F09D9 /* AttributeList.swift */,
 				70C6BF3F2C32DB43001F09D9 /* Onboarding.swift */,
 				70C6BF402C32DB43001F09D9 /* Stock.swift */,
@@ -331,10 +329,10 @@
 		70C6BF462C32DB43001F09D9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				70A40A712C33BF3F0036D6C2 /* Extensions.swift */,
 				70C6BF472C32DB43001F09D9 /* CoreDataStack.swift */,
 				70C6BF482C32DB43001F09D9 /* Assets.xcassets */,
 				70C6BF492C32DB43001F09D9 /* GoogleService-Info.plist */,
-				70C6BF4A2C32DB43001F09D9 /* AdDrop.entitlements */,
 				70C6BF4B2C32DB43001F09D9 /* StorageObject.swift */,
 				70C6BF4C2C32DB43001F09D9 /* UserDefaults.swift */,
 				70C6BF4D2C32DB43001F09D9 /* Fonts */,
@@ -359,7 +357,6 @@
 				70C6BF542C32DB43001F09D9 /* HomeViewController.swift */,
 				70C6BF552C32DB43001F09D9 /* UserAttributesVC.swift */,
 				70C6BF562C32DB43001F09D9 /* LoginViewController.swift */,
-				70C6BF572C32DB43001F09D9 /* NotificationViewController.swift */,
 				70C6BF582C32DB43001F09D9 /* StockAttributes.swift */,
 			);
 			path = Controllers;
@@ -755,7 +752,6 @@
 				70C6BF9C2C32DB44001F09D9 /* QRCollectionViewCell.swift in Sources */,
 				70C6BFA02C32DB44001F09D9 /* TextField.swift in Sources */,
 				70C6BF802C32DB43001F09D9 /* Attribute.swift in Sources */,
-				70C6BF8E2C32DB44001F09D9 /* NotificationViewController.swift in Sources */,
 				70C6BF7E2C32DB43001F09D9 /* App.swift in Sources */,
 				70C6BF8D2C32DB44001F09D9 /* LoginViewController.swift in Sources */,
 				70C6BF9F2C32DB44001F09D9 /* DateCell.swift in Sources */,
@@ -785,8 +781,8 @@
 				70C6BF792C32DB43001F09D9 /* AttributeList.swift in Sources */,
 				70C6BF852C32DB43001F09D9 /* UserDefaults.swift in Sources */,
 				70C6BF7B2C32DB43001F09D9 /* Stock.swift in Sources */,
+				70A40A722C33BF3F0036D6C2 /* Extensions.swift in Sources */,
 				70C6BF9A2C32DB44001F09D9 /* FindUsOnlineCollectionViewCell.swift in Sources */,
-				70C6BF782C32DB43001F09D9 /* Extensions.swift in Sources */,
 				70C6BF8C2C32DB44001F09D9 /* UserAttributesVC.swift in Sources */,
 				70C6BFA32C32DB44001F09D9 /* ShadowView.swift in Sources */,
 				70C6BF7D2C32DB43001F09D9 /* Company.swift in Sources */,
@@ -1004,13 +1000,13 @@
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BAKit/BAKit.framework/Headers\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/BAKit/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Branddrop/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 1.0.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.branddrop.addrop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1044,13 +1040,13 @@
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BAKit/BAKit.framework/Headers\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/BAKit/Resources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Branddrop/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 1.0.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.branddrop.addrop;
 				PRODUCT_NAME = "$(TARGET_NAME)";

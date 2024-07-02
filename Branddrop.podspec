@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint BAKit.podspec' to ensure this is a
+# Be sure to run `pod lib lint Branddrop.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -10,12 +10,11 @@ Pod::Spec.new do |s|
   s.name             = 'Branddrop'
   s.version          = '1.0.0'
   s.summary          = 'Location-based notifications for personalized user engagement and retention campaigns.'
-  s.description      = 'Board Active iOS SDK, for integrating BoardActive into your iOS application. The SDK supports iOS 10.0]+'
-  s.homepage         = 'https://boardactive.com'
+  s.description      = 'BrandDrop iOS SDK, for integrating into you iOS application. The SDK supports iOS 10.0]+'
+  s.homepage         = 'https://branddrop.us'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Hunter Brennick' => 'hunter@boardactive.com' }
-  s.author           = { 'BoardActive' => 'dev@boardactive.com' }
-  s.source           = { :git => 'https://github.com/BoardActive/BAKit-ios.git', :tag => s.version.to_s }
+  s.author           = { 'BrandDrop' => 'info@branddrop.us' }
+  s.source           = { :git => 'https://github.com/BoardActive/BD-SDK-iOS', :tag => s.version.to_s }
   
   s.ios.deployment_target = '10.0'
 
@@ -23,9 +22,9 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   
-  s.module_name = 'BAKit'
+  s.module_name = 'Branddrop'
 
-  s.source_files = 'BAKit/Source/**/*.{swift,h,m}'
+  s.source_files = 'Branddrop/Source/**/*.{swift,h,m}'
   
   s.static_framework = true
 end

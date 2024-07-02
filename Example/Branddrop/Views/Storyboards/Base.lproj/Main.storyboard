@@ -175,7 +175,7 @@
                         <viewControllerLayoutGuide type="top" id="BRL-ok-RK7"/>
                         <viewControllerLayoutGuide type="bottom" id="UDL-qk-3C2"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="fLF-Wi-i5l">
+                    <view key="view" contentMode="scaleToFill" id="fLF-Wi-i5l">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -244,10 +244,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qh4-KF-Byz" userLabel="Welcome View" customClass="ShadowView" customModule="BrandDrop" customModuleProvider="target">
-                                <rect key="frame" x="42" y="182" width="236" height="236"/>
+                                <rect key="frame" x="42" y="182" width="236" height="242"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to BoardActive" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dak-Sv-8lF">
-                                        <rect key="frame" x="-4.5" y="32" width="245" height="68.5"/>
+                                        <rect key="frame" x="-4.5" y="32" width="245" height="65.5"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="245" id="uFb-uc-TEl"/>
@@ -257,7 +257,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9HI-c0-rEX" userLabel="Log In Button">
-                                        <rect key="frame" x="40" y="328" width="156" height="52"/>
+                                        <rect key="frame" x="40" y="325" width="156" height="52"/>
                                         <color key="backgroundColor" name="Colors/ThemeColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="52" id="3cj-ww-I66"/>
@@ -277,7 +277,7 @@
                                         </connections>
                                     </button>
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="pMm-hK-rqW" userLabel="Development Switch">
-                                        <rect key="frame" x="-4.5" y="251.5" width="245" height="31"/>
+                                        <rect key="frame" x="-4.5" y="248.5" width="245" height="31"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vKc-93-ezd">
                                                 <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
@@ -295,14 +295,14 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="hos-cK-8e0" userLabel="Email &amp; Password Fields">
-                                        <rect key="frame" x="-4.5" y="118.5" width="245" height="87"/>
+                                        <rect key="frame" x="-4.5" y="115.5" width="245" height="87"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="taylor@boardactive.com" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xwo-xf-3oY" customClass="MDCTextField">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xwo-xf-3oY" customClass="MDCTextField">
                                                 <rect key="frame" x="0.0" y="0.0" width="245" height="34"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="000000" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xG3-DS-Ga2" customClass="MDCTextField">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xG3-DS-Ga2" customClass="MDCTextField">
                                                 <rect key="frame" x="0.0" y="53" width="245" height="34"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
@@ -478,10 +478,10 @@
             <size key="intrinsicContentSize" width="512" height="512"/>
         </designable>
         <designable name="xG3-DS-Ga2">
-            <size key="intrinsicContentSize" width="115" height="34"/>
+            <size key="intrinsicContentSize" width="108" height="34"/>
         </designable>
         <designable name="xwo-xf-3oY">
-            <size key="intrinsicContentSize" width="248" height="34"/>
+            <size key="intrinsicContentSize" width="72.5" height="34"/>
         </designable>
     </designables>
     <resources>
