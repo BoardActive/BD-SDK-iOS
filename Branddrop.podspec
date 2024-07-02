@@ -14,17 +14,17 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://branddrop.us'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'BrandDrop' => 'info@branddrop.us' }
-  s.source           = { :git => 'https://github.com/BoardActive/BD-SDK-iOS', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/BoardActive/BD-SDK-iOS.git', :tag => s.version.to_s }
   
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '12.0'
 
   s.swift_version         = '4.0'
 
   s.requires_arc = true
   
-  s.module_name = 'Branddrop'
+  s.module_name = 'BAKit'
 
-  s.source_files = 'Branddrop/Source/**/*.{swift,h,m}'
+  s.source_files = 'BAKit/Source/**/*.{swift,h,m}'
   
   s.static_framework = true
 end

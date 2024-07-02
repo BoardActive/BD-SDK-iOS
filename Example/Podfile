@@ -1,11 +1,11 @@
 
-platform :ios, '10.0'
+platform :ios, '12.0'
 
 plugin 'cocoapods-binary'
 use_frameworks!
 
 target 'BrandDrop' do
-  pod 'BAKit-iOS', :path => '../'
+  pod 'Branddrop', :path => '../'
  
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
