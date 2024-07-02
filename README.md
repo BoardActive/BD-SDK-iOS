@@ -1,12 +1,11 @@
 ![Cocoapods platforms](https://img.shields.io/cocoapods/p/BAKit)
 ![GitHub top language](https://img.shields.io/github/languages/top/boardactive/BAKit-ios?color=orange)
 ![Cocoapods](https://img.shields.io/cocoapods/v/BAKit-iOS?color=red)
-![GitHub commits since tagged version (branch)](https://img.shields.io/github/commits-since/boardactive/BAKit-ios/1.0.2)
-![GitHub issues](https://img.shields.io/github/issues-raw/boardactive/BAKit-iOS)
+![GitHub commits since tagged version (branch)](https://img.shields.io/github/commits-since/boardactive/BD-SDK-iOS/1.0.0)
+![GitHub issues](https://img.shields.io/github/issues-raw/boardactive/BD-SDK-iOS)
 
 # Branddrop
-
-<img src="https://avatars0.githubusercontent.com/u/38864287?s=200&v=4" width="96" height="96"/>
+![BDLogo](https://github.com/BoardActive/BD-SDK-iOS/assets/113526795/3dc705af-90f5-47ac-ae3d-f9991ed566d4)
 
 ### Location-Based Engagement
 
@@ -14,24 +13,24 @@
 
 ##### It's not about Advertising... It's about *"PERSONALIZING"*
 
-BoardActive's platform connects brands to consumers using location-based engagement. Our international patent-pending Visualmatic™ software is a powerful marketing tool allowing brands to set up a virtual perimeter around any location, measure foot-traffic, and engage users with personalized messages when they enter geolocations… AND effectively attribute campaign efficiency by seeing where users go after the impression!
+Branddrop's platform connects brands to consumers using location-based engagement. Our international patent-pending Visualmatic™ software is a powerful marketing tool allowing brands to set up a virtual perimeter around any location, measure foot-traffic, and engage users with personalized messages when they enter geolocations… AND effectively attribute campaign efficiency by seeing where users go after the impression!
 
-Use your BoardActive account to create Places (geo-fenced areas) and Messages (notifications) to deliver custom messages to your app users.
+Use your Branddrop account to create Places (geo-fenced areas) and Messages (notifications) to deliver custom messages to your app users.
 
-[Click Here to get a BoardActive Account](https://app.boardactive.com/signup)
+[Click Here to get a Branddrop Account](https://app.boardactive.com/sign-up)
 
 Once a client has established at least one geofence, the BAKit SDK leverages any smart device's native location monitoring, determines when a user enters said geofence and dispatches a  *personalized* notification of the client's composition.
 ___
 ### Required For Setup
 1. A Firebase project to which you've added your app.
-2. A BoardActive account
+2. A Branddrop account
 
 ### Create a Firebase Project
 #### Add Firebase Core and Firebase Messaging to your app
 To use Firebase Cloud Messaging you must create a Firebase project.
 
 * [Firebase iOS Quickstart](https://firebase.google.com/docs/ios/setup) - A guide to creating and understanding Firebase projects.
-* [Set up a Firebase Cloud Messaging client app on iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) - How to handle Firebase Cloud Messaging (the means by which BoardActive sends push notifications).
+* [Set up a Firebase Cloud Messaging client app on iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) - How to handle Firebase Cloud Messaging (the means by which  sends push notifications).
     * Please refer to the following two articles regarding APNS, as Firebase's documentation is a bit dated. We'll also cover how to add push notifications to your account whilst installing the SDK:
         * [Enable Push Notifications](https://help.apple.com/xcode/mac/current/#/devdfd3d04a1)
         * [Registering Your App with APNs](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns)
@@ -39,11 +38,11 @@ To use Firebase Cloud Messaging you must create a Firebase project.
 
 Once you create a related Firebase project you can download the ```GoogleService-Info.plist``` and hang on to that file for use in the "CocoaPods" section.
 
-### Receiving your BoardActive AppKey
-* Please email the Firebase key found in the Firebase project settings “Service Accounts” -> “Firebase Admin SDK” under “Firebase service account” to [taylor@boardactive.com](taylor@boardactive.com) and he will respond with your BoardActive AppKey.
+### Receiving your Branddrop AppKey
+* Please email the Firebase key found in the Firebase project settings “Service Accounts” -> “Firebase Admin SDK” under “Firebase service account” to [taylor@boardactive.com](taylor@boardactive.com) and he will respond with your  AppKey.
 
 ### Installing the BAKit SDK
-* BoardActive for iOS utilizes Swift 4.0 and supports iOS 10+.
+*  for iOS utilizes Swift 4.0 and supports iOS 10+.
 * Build with Xcode 9+ is required, adding support for iPhone X and iOS 11.
 * Currently, the SDK is available via CocoaPods or via downloading the repository and manually linking the SDK's source code to your project.
 
@@ -134,7 +133,7 @@ Just inside the declaration of the ```AppDelegate``` class, the following variab
     var isReceviedEventUpdated = false
 ```
 
-After configuring Firebase and declaring ```AppDelegate```'s conformance to Firebase's ```MessagingDelegate```, store your BoardActive AppId and AppKey to ```BoardActive.client.userDefaults``` like so:
+After configuring Firebase and declaring ```AppDelegate```'s conformance to Firebase's ```MessagingDelegate```, store your Branddrop AppId and AppKey to ```BoardActive.client.userDefaults``` like so:
 
 ```swift
 func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
@@ -382,12 +381,12 @@ Add the below method in the controller from which you want to start location and
 
 
 ## Download Example App Source Code
-There is an example app included in the repo's code under ["Example"](https://github.com/BoardActive/BAKit-ios/tree/master/Example).
+There is an example app included in the repo's code under ["Example"](https://github.com/BoardActive/BD-SDK-iOS/tree/main/Example).
 
 ## Ask for Help
 
 Our team wants to help. Please contact us
 * Call us: [(678) 383-2200](tel:+6494461709)
-* Email Us [support@boardactive.com](mailto:support@boardactive.com)
-* Online Support [Web Site](https://www.boardactive.com/) 
+* Email Us [info@branddrop.us](mailto:info@branddrop.us)
+* Online Support [Web Site](https://app.boardactive.com) 
 
