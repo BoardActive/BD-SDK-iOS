@@ -3,7 +3,7 @@
 //  BrandDrop
 //
 //  Created by Indrajeet Senger on 13/05/20.
-//  Copyright © 2020 BoardActive. All rights reserved.
+//  Copyright © 2020 Branddrop. All rights reserved.
 //
 
 import Foundation

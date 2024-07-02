@@ -3,7 +3,7 @@
 //  BrandDrop
 //
 //  Created by Rahul Shrimali on 20/05/20.
-//  Copyright © 2020 BoardActive. All rights reserved.
+//  Copyright © 2020 Branddrop. All rights reserved.
 //
 
 import UIKit

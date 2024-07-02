@@ -3,7 +3,7 @@
 //  NotificationPersistenceService
 //
 //  Created by Ed Salter on 8/22/19.
-//  Copyright © 2019 BoardActive. All rights reserved.
+//  Copyright © 2019 Branddrop. All rights reserved.
 //
 
 import UserNotifications

@@ -3,7 +3,7 @@
 //  BAKit
 //
 //  Created by Ed Salter on 5/3/19.
-//  Copyright © 2019 BoardActive. All rights reserved.
+//  Copyright © 2019 Branddrop. All rights reserved.
 //
 
 import Foundation
