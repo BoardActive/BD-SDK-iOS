@@ -5,8 +5,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/boardactive/BD-SDK-iOS)
 
 # Branddrop
-
-<img src="https://avatars0.githubusercontent.com/u/38864287?s=200&v=4" width="96" height="96"/>
+![BDLogo](https://github.com/BoardActive/BD-SDK-iOS/assets/113526795/3dc705af-90f5-47ac-ae3d-f9991ed566d4)
 
 ### Location-Based Engagement
 
