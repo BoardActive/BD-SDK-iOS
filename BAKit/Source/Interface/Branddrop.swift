@@ -1,9 +1,9 @@
 //
-//  BoardActive.swift
-//  BoardActive.framework
+//  Branddrop.swift
+//  Branddrop.framework
 //
 //  Created by Hunter Brennick on 7/23/18.
-//  Copyright © 2018 BoardActive. All rights reserved.
+//  Copyright © 2018 Branddrop. All rights reserved.
 //
 import CoreLocation
 import Foundation
@@ -19,9 +19,7 @@ public enum NetworkError: Error {
  Dev and prod base urls plus their associated endpoints.
  */
 public enum EndPoints {
-//    static let DevEndpoint = "https://springer-api.boardactive.com/mobile/v1"
     static let DevEndpoint = "https://api.branddrop.us/mobile/v1"
-//    static let DevEndpoint = "https://boardactiveapi.dev.radixweb.net/mobile/v1"
     static let ProdEndpoint = "https://api.branddrop.us/mobile/v1"
     static let Events = "/events"
     static let Me = "/me"
@@ -46,11 +44,11 @@ enum BAKitError: Error {
     case appDisable
 }
 
-public class BoardActive: NSObject, CLLocationManagerDelegate {
+public class Branddrop: NSObject, CLLocationManagerDelegate {
     /**
-     A property returning the BoardActive singleton.
+     A property returning the Branddrop singleton.
      */
-    public static let client = BoardActive()
+    public static let client = Branddrop()
     public var userDefaults = UserDefaults(suiteName: "BAKit")
     public var isDevEnv = true
     public var geofenceRadius = 100
@@ -93,33 +91,33 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
      If error occurs, block will execute with status other than `INTULocationStatusSuccess` and subscription will be kept alive.
      */
     public func monitorLocation() {
-        BoardActive.client.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        BoardActive.client.locationManager.distanceFilter = kCLDistanceFilterNone
-        BoardActive.client.locationManager.delegate = self
-        BoardActive.client.locationManager.requestAlwaysAuthorization()
-        BoardActive.client.locationManager.startUpdatingLocation()
-        BoardActive.client.locationManager.startMonitoringSignificantLocationChanges()
-        BoardActive.client.locationManager.pausesLocationUpdatesAutomatically = false
-        BoardActive.client.locationManager.allowsBackgroundLocationUpdates=true
-        BoardActive.client.locationManager.activityType = .otherNavigation
+        Branddrop.client.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        Branddrop.client.locationManager.distanceFilter = kCLDistanceFilterNone
+        Branddrop.client.locationManager.delegate = self
+        Branddrop.client.locationManager.requestAlwaysAuthorization()
+        Branddrop.client.locationManager.startUpdatingLocation()
+        Branddrop.client.locationManager.startMonitoringSignificantLocationChanges()
+        Branddrop.client.locationManager.pausesLocationUpdatesAutomatically = false
+        Branddrop.client.locationManager.allowsBackgroundLocationUpdates=true
+        Branddrop.client.locationManager.activityType = .otherNavigation
     }
     
       /**
-       Calls `stopUpdatingLocation` on BoardActive's private CLLocationManager property.
+       Calls `stopUpdatingLocation` on Branddrop's private CLLocationManager property.
        */
       public func stopUpdatingLocationandReinitialize() {
-            BoardActive.client.locationManager.stopUpdatingLocation()
-            BoardActive.client.locationManager.startMonitoringSignificantLocationChanges()
+            Branddrop.client.locationManager.stopUpdatingLocation()
+            Branddrop.client.locationManager.startMonitoringSignificantLocationChanges()
       }
 
     //MARK: - Core Location
     
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
-            os_log("\n[BoardActive] didUpdateLocations :: Error: Last location of locations = nil.\n")
+            os_log("\n[Branddrop] didUpdateLocations :: Error: Last location of locations = nil.\n")
             return
         }
-        BoardActive.client.currentLocation = location
+        Branddrop.client.currentLocation = location
         
         if UserDefaults.standard.value(forKey: String.ConfigKeys.traveledDistance) == nil {
             UserDefaults.standard.set([location.coordinate.latitude, location.coordinate.longitude], forKey: String.ConfigKeys.traveledDistance)
@@ -130,64 +128,64 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
             if distanceInMeters >= recordLocationAfterMeters {
                 UserDefaults.standard.set([location.coordinate.latitude, location.coordinate.longitude], forKey: String.ConfigKeys.traveledDistance)
                 UserDefaults(suiteName: "BAKit")?.set(nil, forKey: String.ConfigKeys.geoFenceLocations)
-                BoardActive.client.storeAppLocations()
+                Branddrop.client.storeAppLocations()
             }
         }
-        let flag: Bool = BoardActive.client.userDefaults?.value(forKey: String.ConfigKeys.silentPushReceived) as? Bool ?? false
+        let flag: Bool = Branddrop.client.userDefaults?.value(forKey: String.ConfigKeys.silentPushReceived) as? Bool ?? false
         if flag {
-            BoardActive.client.userDefaults?.set(false, forKey: String.ConfigKeys.silentPushReceived)
+            Branddrop.client.userDefaults?.set(false, forKey: String.ConfigKeys.silentPushReceived)
             UserDefaults(suiteName: "BAKit")?.set(nil, forKey: String.ConfigKeys.geoFenceLocations)
-            BoardActive.client.storeAppLocations()
+            Branddrop.client.storeAppLocations()
         }
         
         if !isGeoLocationCalled {
             self.isGeoLocationCalled = true
-            BoardActive.client.storeAppLocations()
+            Branddrop.client.storeAppLocations()
         }
 
        /* if let locationList = userDefaults?.value(forKey: String.ConfigKeys.userLocations) as? [[String: Double]] {
-            BoardActive.client.previousUserLocation = CLLocation(latitude: locationList.last?[String.NetworkCallRelated.Latitude] ?? 0.0, longitude: locationList.last?[String.NetworkCallRelated.Longitude] ?? 0.0)
+            Branddrop.client.previousUserLocation = CLLocation(latitude: locationList.last?[String.NetworkCallRelated.Latitude] ?? 0.0, longitude: locationList.last?[String.NetworkCallRelated.Longitude] ?? 0.0)
         }
         
-        if (BoardActive.client.previousUserLocation == nil) {
-            BoardActive.client.previousUserLocation = location
+        if (Branddrop.client.previousUserLocation == nil) {
+            Branddrop.client.previousUserLocation = location
             saveLocationLocally(location: location)
             
-        } else if let previousLocation = BoardActive.client.previousUserLocation, location.distance(from: previousLocation) > recordLocationAfterMeters {
-            BoardActive.client.previousUserLocation = location
+        } else if let previousLocation = Branddrop.client.previousUserLocation, location.distance(from: previousLocation) > recordLocationAfterMeters {
+            Branddrop.client.previousUserLocation = location
             saveLocationLocally(location: location)
         } */
         
 //        if CLLocationManager.locationServicesEnabled() {
 //            switch CLLocationManager.authorizationStatus() {
 //            case .notDetermined, .restricted, .denied, .authorizedWhenInUse:
-//                BoardActive.client.userDefaults?.set(false, forKey: String.Attribute.LocationPermission)
+//                Branddrop.client.userDefaults?.set(false, forKey: String.Attribute.LocationPermission)
 //            case .authorizedAlways:
-//                BoardActive.client.userDefaults?.set(true, forKey: String.Attribute.LocationPermission)
+//                Branddrop.client.userDefaults?.set(true, forKey: String.Attribute.LocationPermission)
 //            }
-//            BoardActive.client.userDefaults?.synchronize()
+//            Branddrop.client.userDefaults?.synchronize()
 //        }
 //
-//        if BoardActive.client.userDefaults?.object(forKey: String.Attribute.DateLocationRequested) == nil {
+//        if Branddrop.client.userDefaults?.object(forKey: String.Attribute.DateLocationRequested) == nil {
 //            let date = Date().iso8601
-//            BoardActive.client.userDefaults?.set(date, forKey: String.Attribute.DateLocationRequested)
-//            BoardActive.client.userDefaults?.synchronize()
-////            BoardActive.client.editUser(attributes: Attributes(fromDictionary: ["dateLocationRequested": date]), httpMethod: String.HTTPMethod.PUT)
+//            Branddrop.client.userDefaults?.set(date, forKey: String.Attribute.DateLocationRequested)
+//            Branddrop.client.userDefaults?.synchronize()
+////            Branddrop.client.editUser(attributes: Attributes(fromDictionary: ["dateLocationRequested": date]), httpMethod: String.HTTPMethod.PUT)
 //        }
 //
-//        if BoardActive.client.currentLocation == nil {
-//            BoardActive.client.currentLocation = location
+//        if Branddrop.client.currentLocation == nil {
+//            Branddrop.client.currentLocation = location
 //            postLocation(location: location)
 //        }
 //
-//        if let currentLocation = BoardActive.client.currentLocation, location.distance(from: currentLocation) < 10.0 {
-//            BoardActive.client.distanceBetweenLocations = (BoardActive.client.distanceBetweenLocations ?? 0.0) + location.distance(from: currentLocation)
+//        if let currentLocation = Branddrop.client.currentLocation, location.distance(from: currentLocation) < 10.0 {
+//            Branddrop.client.distanceBetweenLocations = (Branddrop.client.distanceBetweenLocations ?? 0.0) + location.distance(from: currentLocation)
 //        } else {
 //            postLocation(location: location)
-//            BoardActive.client.distanceBetweenLocations = 0.0
+//            Branddrop.client.distanceBetweenLocations = 0.0
 //        }
 
-//        BoardActive.client.currentLocation = location
+//        Branddrop.client.currentLocation = location
     }
     
     public func getAttributes(completionHandler: @escaping([[String: Any]]?, Error?) -> Void) {
@@ -224,7 +222,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
                            completionHandler(nil, err)
                            return
                        }
-                  os_log("[BoardActive] :: login: %s", parsedJSON.debugDescription)
+                  os_log("[Branddrop] :: login: %s", parsedJSON.debugDescription)
                        completionHandler(parsedJSON, nil)
                        return
                    }
@@ -232,13 +230,13 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         guard let clError = error as? CLError else {
-            os_log("\n[BoardActive] didFailWithError :: %s \n", error.localizedDescription)
+            os_log("\n[Branddrop] didFailWithError :: %s \n", error.localizedDescription)
             return
         }
         
         switch clError.errorCode {
         case 0:
-            os_log("\n[BoardActive] didFailWithError :: Error: Location Unknown \n")
+            os_log("\n[Branddrop] didFailWithError :: Error: Location Unknown \n")
             break
         case 1:
             // Access to the location service was denied by the user.
@@ -248,7 +246,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
             // Network error
             break
         default:
-            os_log("\n[BoardActive] didFailWithError :: Error: %s \n", clError.errorUserInfo.debugDescription)
+            os_log("\n[Branddrop] didFailWithError :: Error: %s \n", clError.errorUserInfo.debugDescription)
             break
         }
     }
@@ -257,15 +255,15 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
         var isAppAuthorized = false
         switch status {
         case .notDetermined, .restricted, .denied, .authorizedWhenInUse:
-            os_log("\n[BoardActive] didChangeAuthorization :: status: Always\n")
+            os_log("\n[Branddrop] didChangeAuthorization :: status: Always\n")
             userDefaults?.set(false, forKey: String.Attribute.LocationPermission)
         case .authorizedAlways:
-            os_log("\n[BoardActive] didChangeAuthorization :: status: Always\n")
+            os_log("\n[Branddrop] didChangeAuthorization :: status: Always\n")
             userDefaults?.set(true, forKey: String.Attribute.LocationPermission)
             isAppAuthorized = true
         }
         userDefaults?.synchronize()
-        BoardActive.client.updatePermissionStates()
+        Branddrop.client.updatePermissionStates()
     }
     
     /**
@@ -280,10 +278,10 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
     } */
 
     /**
-     Calls `stopUpdatingLocation` on BoardActive's private CLLocationManager property.
+     Calls `stopUpdatingLocation` on Branddrop's private CLLocationManager property.
      */
     public func stopUpdatingLocation() {
-        BoardActive.client.locationManager.stopUpdatingLocation()
+        Branddrop.client.locationManager.stopUpdatingLocation()
     }
 
     // MARK: SDK Functions
@@ -303,8 +301,8 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
         let headers: [String: String] = [
             String.HeaderKeys.AcceptEncodingHeader: String.HeaderValues.GzipDeflate,
             String.HeaderKeys.AcceptHeader: String.HeaderValues.WildCards,
-            String.HeaderKeys.AppKeyHeader: BoardActive.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey) ?? "",
-            String.HeaderKeys.AppIdHeader: BoardActive.client.userDefaults?.string(forKey: String.ConfigKeys.AppId) ?? "",
+            String.HeaderKeys.AppKeyHeader: Branddrop.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey) ?? "",
+            String.HeaderKeys.AppIdHeader: Branddrop.client.userDefaults?.string(forKey: String.ConfigKeys.AppId) ?? "",
             String.HeaderKeys.AppVersionHeader: String.HeaderValues.AppVersion,
             String.HeaderKeys.CacheControlHeader: String.HeaderValues.NoCache,
             String.HeaderKeys.ConnectionHeader: String.HeaderValues.KeepAlive,
@@ -345,11 +343,11 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
                 return
             }
 
-            os_log("[BoardActive] :: login: %s", parsedJSON.debugDescription)
+            os_log("[Branddrop] :: login: %s", parsedJSON.debugDescription)
             completionHandler(parsedJSON, nil)
             // since login requires email, update user after email is given
             DispatchQueue.main.async {
-                BoardActive.client.editUser(attributes: Attributes(fromDictionary: ["stock": ["email": email]]), httpMethod: String.HTTPMethod.PUT)
+                Branddrop.client.editUser(attributes: Attributes(fromDictionary: ["stock": ["email": email]]), httpMethod: String.HTTPMethod.PUT)
             }
           
             return
@@ -364,7 +362,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
         let path = "\(EndPoints.Me)"
 
         let body: [String: Any] = [
-            String.ConfigKeys.Email: BoardActive.client.userDefaults?.object(forKey: String.ConfigKeys.Email) as Any,
+            String.ConfigKeys.Email: Branddrop.client.userDefaults?.object(forKey: String.ConfigKeys.Email) as Any,
             String.HeaderKeys.DeviceOSHeader: String.HeaderValues.iOS,
             String.HeaderKeys.DeviceOSVersionHeader: String.HeaderValues.DeviceOSVersion,
         ]
@@ -375,14 +373,14 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
                 return
             }
 
-            BoardActive.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
+            Branddrop.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
             completionHandler(parsedJSON, nil)
             return
         }
     }
 
     /**
-     Creates an Event using the information provided and then logs said Event to the BoardActive server.
+     Creates an Event using the information provided and then logs said Event to the Branddrop server.
 
      - Parameter name: `String`
      - Parameter messageId: `String` The value associated with the key "messageId" in notifications.
@@ -456,7 +454,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
                 return
             }
           
-            os_log("\n[BoardActive] :: editUser: %s\n", parsedJSON.debugDescription)
+            os_log("\n[Branddrop] :: editUser: %s\n", parsedJSON.debugDescription)
         }
     }
     
@@ -464,13 +462,13 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
         A method to get the list of geofence location.
      */
     public func downloadGeofenceLocation(completionHandler: @escaping ([String: Any]?, Error?) -> Void) {
-        if BoardActive.client.currentLocation.coordinate.latitude != 0 && BoardActive.client.currentLocation.coordinate.longitude != 0 {
-            print("BoardActive.client.currentLocation: \(BoardActive.client.currentLocation.coordinate.latitude), \(BoardActive.client.currentLocation.coordinate.longitude)")
+        if Branddrop.client.currentLocation.coordinate.latitude != 0 && Branddrop.client.currentLocation.coordinate.longitude != 0 {
+            print("Branddrop.client.currentLocation: \(Branddrop.client.currentLocation.coordinate.latitude), \(Branddrop.client.currentLocation.coordinate.longitude)")
             //        let path = "\(EndPoints.GeoFenceLocation)?limit=10"
             let path = "\(EndPoints.GeoFenceLocation)"
             let body: [String: Any] = [
-                String.NetworkCallRelated.Latitude: "\(BoardActive.client.currentLocation.coordinate.latitude)",
-                String.NetworkCallRelated.Longitude: "\(BoardActive.client.currentLocation.coordinate.longitude)",
+                String.NetworkCallRelated.Latitude: "\(Branddrop.client.currentLocation.coordinate.latitude)",
+                String.NetworkCallRelated.Longitude: "\(Branddrop.client.currentLocation.coordinate.longitude)",
                 String.NetworkCallRelated.Radius: recordLocationAfterMeters*2,
             ]
             callServer(path: path, httpMethod: String.HTTPMethod.POST, body: body as Dictionary<String, AnyObject>, verifyAppEnable: false) { parsedJSON, err in
@@ -507,7 +505,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
         do {
             try bodyData = JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
-            print("[BoardActive] :: callServer :: bodyData serialization error.")
+            print("[Branddrop] :: callServer :: bodyData serialization error.")
         }
 
         let request = NSMutableURLRequest(url: NSURL(string: destination)! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 60.0)
@@ -538,7 +536,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
                 if let dataString = String(data: data, encoding: .utf8) {
                     os_log("[BA:client:callServer] :: dataString : %@", dataString)
 
-                    completionHandler(BoardActive.client.convertToDictionary(text: dataString), nil)
+                    completionHandler(Branddrop.client.convertToDictionary(text: dataString), nil)
                     return
                 }
             }
@@ -576,7 +574,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
                   if let dataString = String(data: data, encoding: .utf8) {
                       os_log("[BA:client:callServer] :: dataString : %@", dataString)
 
-                      completionHandler(BoardActive.client.convertToDictionary(ofArray: dataString), nil)
+                      completionHandler(Branddrop.client.convertToDictionary(ofArray: dataString), nil)
                       return
                   }
               }
@@ -634,7 +632,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
                let dictPara: [String: Any] = ["notificationPermission": notificationPermission,
                                               "locationPermission": locationSharingEnable]
                let body =  ["attributes" : ["stock": dictPara]]
-               BoardActive.client.updateUserData(body: body) { (response, error) in
+               Branddrop.client.updateUserData(body: body) { (response, error) in
                  print(response as Any)
                }
            }
@@ -698,7 +696,7 @@ public class BoardActive: NSObject, CLLocationManagerDelegate {
 }
 
 //Method to handle geofence feature
-extension BoardActive {
+extension Branddrop {
     public func storeAppLocations() {
         if (userDefaults?.value(forKey: String.ConfigKeys.geoFenceLocations) == nil) {
             downloadGeofenceLocation { [self] response, error in
@@ -746,7 +744,7 @@ extension BoardActive {
                     self.userDefaults?.set(locationList, forKey: String.ConfigKeys.geoFenceLocations)
                     self.setupRegion()
                 } else {
-                    os_log("\n[BoardActive] downloadGeofenceLocation :: Error: Not able to fetch geofence location = %s.\n", error?.localizedDescription ?? "")
+                    os_log("\n[Branddrop] downloadGeofenceLocation :: Error: Not able to fetch geofence location = %s.\n", error?.localizedDescription ?? "")
                     return
                 }
             }

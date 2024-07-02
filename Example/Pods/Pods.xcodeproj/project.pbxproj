@@ -442,7 +442,6 @@
 		39AF7BB33F6081260332CEAB7B8B5C8A /* MDCTextInputControllerFullWidth.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B2F65668AAE878203CB9C03DB7B4F2 /* MDCTextInputControllerFullWidth.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39C6B85417C04481F91098401428A0AB /* MaterialInk.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BCBD5C7AF5BE232D3F6DB7C3244EF4C /* MaterialInk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		39F03206C153C7E7FB839D8342E9A6CD /* pb_encode.h in Headers */ = {isa = PBXBuildFile; fileRef = 522ADEEDADF9EA7CACA8DD7F8DE87936 /* pb_encode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3A2BDBB581BBC9910F01BAD3B1FF378C /* BoardActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893622DE15594ED7FD3622193C4FF3B8 /* BoardActive.swift */; };
 		3A467EFD2688EA6C39E6AA40D7CDC806 /* FIRCLSReportManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 11F131F3C664F13CAC506B1A9A325091 /* FIRCLSReportManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3ABC91CBE19117AF7B7B1517BFCB68FA /* FirebaseCoreInternal-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559C0C2563FA63A9A1C8686B76CBE54 /* FirebaseCoreInternal-dummy.m */; };
 		3ABDA920FDD838A534E55347FF35ACCC /* BeNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B385210FBFD16577C09883637085447 /* BeNil.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
@@ -777,6 +776,7 @@
 		6F84E7183A85EAAB02D71AE865696210 /* GULSceneDelegateSwizzler.h in Headers */ = {isa = PBXBuildFile; fileRef = 2054965EF982B2AA46EC9A6B638819A7 /* GULSceneDelegateSwizzler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		700435BC700039C24DA9F1C88D6CB955 /* MDCCollectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A28489AC517671D184F264C5EB76EB1A /* MDCCollectionViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70209D3A763377321846E9D08C90D35B /* MaterialNavigationDrawer.h in Headers */ = {isa = PBXBuildFile; fileRef = 54328A2C7A77BB4F5BCE01465BF7ACF0 /* MaterialNavigationDrawer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7031E8C22C340ED400BE9D68 /* Branddrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E8C12C340ED300BE9D68 /* Branddrop.swift */; };
 		703BA314678F772C4CF8D550D7EBF41F /* FIRCLSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BEA62D024C66DBB1C2A2B30C66AA83 /* FIRCLSUserDefaults.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		703C2414CB6CF7AA5D3FAC79775A50DC /* MDCShadowLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EB2B918C53109CCC2174FD96E8A8284 /* MDCShadowLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		707245706183C9814604FBE34CD83152 /* NMBExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702D1405EE14063F9E359B7C6D747481 /* NMBExpectation.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
@@ -3106,6 +3106,7 @@
 		6F93DD1B3571EF14B431C2B3EAE0F309 /* BAKit-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "BAKit-iOS.modulemap"; sourceTree = "<group>"; };
 		6FF99E51BAC4941D7153541F15F6DA10 /* FIRInstallationsIDController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FIRInstallationsIDController.m; path = FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsIDController.m; sourceTree = "<group>"; };
 		702D1405EE14063F9E359B7C6D747481 /* NMBExpectation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NMBExpectation.swift; path = Sources/Nimble/Adapters/NMBExpectation.swift; sourceTree = "<group>"; };
+		7031E8C12C340ED300BE9D68 /* Branddrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Branddrop.swift; sourceTree = "<group>"; };
 		703CA5E1B20F6898A096CB57996DB8A2 /* MDCTextInputArt.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCTextInputArt.h; path = components/TextFields/src/private/MDCTextInputArt.h; sourceTree = "<group>"; };
 		70C32ABACAD92AB8F12A78100E5B3A34 /* MDMSpringTimingCurveGenerator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MDMSpringTimingCurveGenerator.m; path = src/MDMSpringTimingCurveGenerator.m; sourceTree = "<group>"; };
 		70C5BC6BF27434D89F0032A6B366330C /* Pods-BrandDrop-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BrandDrop-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -3288,7 +3289,6 @@
 		88F968A39AB42E5E2A43A91B2DFCB659 /* MDFInternationalization-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MDFInternationalization-umbrella.h"; sourceTree = "<group>"; };
 		891CC316E213C412980144AFC2AC49C8 /* FBLPromise+Validate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FBLPromise+Validate.h"; path = "Sources/FBLPromises/include/FBLPromise+Validate.h"; sourceTree = "<group>"; };
 		89337F4501BE09BFFD89CC382B3A7109 /* MDCTabBar.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCTabBar.h; path = components/Tabs/src/MDCTabBar.h; sourceTree = "<group>"; };
-		893622DE15594ED7FD3622193C4FF3B8 /* BoardActive.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BoardActive.swift; sourceTree = "<group>"; };
 		896533B487C0B91A9B9457A4E38B9685 /* MDCAvailability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCAvailability.h; path = components/Availability/src/MDCAvailability.h; sourceTree = "<group>"; };
 		89667AADB7A6C8147C807B34281298B8 /* MaterialDialogs+TypographyThemer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MaterialDialogs+TypographyThemer.h"; path = "components/Dialogs/src/TypographyThemer/MaterialDialogs+TypographyThemer.h"; sourceTree = "<group>"; };
 		896752548D8E00F0C633DAA289D99803 /* MDCDialogPresentationController+MaterialTheming.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MDCDialogPresentationController+MaterialTheming.h"; path = "components/Dialogs/src/Theming/MDCDialogPresentationController+MaterialTheming.h"; sourceTree = "<group>"; };
@@ -7339,7 +7339,7 @@
 		DF92C6AD02DD2ECD51778AE666D46CDB /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				893622DE15594ED7FD3622193C4FF3B8 /* BoardActive.swift */,
+				7031E8C12C340ED300BE9D68 /* Branddrop.swift */,
 			);
 			name = Interface;
 			path = BAKit/Source/Interface;
@@ -10263,9 +10263,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7031E8C22C340ED400BE9D68 /* Branddrop.swift in Sources */,
 				15D249AA22631B15951EAF520CCB19B4 /* Attributes.swift in Sources */,
 				B27A8AF12C2B5CAB11126AD3E148D48A /* BAKit-iOS-dummy.m in Sources */,
-				3A2BDBB581BBC9910F01BAD3B1FF378C /* BoardActive.swift in Sources */,
 				4660081FE16434020D6D8EB79AB8D308 /* Extensions.swift in Sources */,
 				23C9BA723DA91F8E46FAF03560DBD772 /* KeyboardLayoutConstraint.swift in Sources */,
 				F07997D12481B21FD8B9C41EFD1A059E /* Location.swift in Sources */,

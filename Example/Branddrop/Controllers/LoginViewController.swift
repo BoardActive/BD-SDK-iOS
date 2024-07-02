@@ -39,15 +39,15 @@ class LoginViewController: UIViewController {
         activitiController.layer.cornerRadius = 10
         view.addSubview(activitiController)
         
-        if BoardActive.client.userDefaults!.bool(forKey: String.ConfigKeys.DeviceRegistered), let anEmail = BoardActive.client.userDefaults!.string(forKey: String.ConfigKeys.Email), let aPassword = BoardActive.client.userDefaults!.string(forKey: String.ConfigKeys.Password)  {
+        if Branddrop.client.userDefaults!.bool(forKey: String.ConfigKeys.DeviceRegistered), let anEmail = Branddrop.client.userDefaults!.string(forKey: String.ConfigKeys.Email), let aPassword = Branddrop.client.userDefaults!.string(forKey: String.ConfigKeys.Password)  {
             self.emailTextField.text = anEmail
             self.passwordTextField.text = aPassword
-            if (BoardActive.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey) == String.AppKeys.Dev) {
+            if (Branddrop.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey) == String.AppKeys.Dev) {
                 devEnvSwitch.setOn(true, animated: false)
-                BoardActive.client.isDevEnv = true
+                Branddrop.client.isDevEnv = true
             } else {
                 devEnvSwitch.setOn(false, animated: false)
-                BoardActive.client.isDevEnv = false
+                Branddrop.client.isDevEnv = false
             }
             self.signInAction(self)
         }
@@ -101,19 +101,19 @@ class LoginViewController: UIViewController {
             DispatchQueue.main.async {
                 self.activitiController.startAnimating()
             }
-            BoardActive.client.userDefaults?.set(email, forKey: "email")
-            BoardActive.client.userDefaults?.set(password, forKey: "password")
+            Branddrop.client.userDefaults?.set(email, forKey: "email")
+            Branddrop.client.userDefaults?.set(password, forKey: "password")
             
             if self.devEnvSwitch.isOn {
-                BoardActive.client.userDefaults?.set(true, forKey: "isDevEnv")
+                Branddrop.client.userDefaults?.set(true, forKey: "isDevEnv")
             } else {
-                BoardActive.client.userDefaults?.set(false, forKey: "isDevEnv")
+                Branddrop.client.userDefaults?.set(false, forKey: "isDevEnv")
             }
-            BoardActive.client.userDefaults?.synchronize()
+            Branddrop.client.userDefaults?.synchronize()
             
             let operationQueue = OperationQueue()
             let registerDeviceOperation = BlockOperation {
-                BoardActive.client.postLogin(email: email, password: password) { (parsedJSON, err) in
+                Branddrop.client.postLogin(email: email, password: password) { (parsedJSON, err) in
                     guard (err == nil) else {
                         DispatchQueue.main.async {
                             self.showCredentialsErrorAlert(error: err!.localizedDescription)
@@ -153,13 +153,13 @@ class LoginViewController: UIViewController {
                     
                 }
                 
-                if BoardActive.client.isDevEnv {
-                    BoardActive.client.userDefaults?.set(String.AppKeys.Dev, forKey: String.ConfigKeys.AppKey)
+                if Branddrop.client.isDevEnv {
+                    Branddrop.client.userDefaults?.set(String.AppKeys.Dev, forKey: String.ConfigKeys.AppKey)
                 } else {
-                    BoardActive.client.userDefaults?.set(String.AppKeys.Prod, forKey: String.ConfigKeys.AppKey)
+                    Branddrop.client.userDefaults?.set(String.AppKeys.Prod, forKey: String.ConfigKeys.AppKey)
                 }
                 
-                BoardActive.client.userDefaults?.synchronize()
+                Branddrop.client.userDefaults?.synchronize()
             }
             operationQueue.addOperation(registerDeviceOperation)
         } else {
@@ -181,9 +181,9 @@ class LoginViewController: UIViewController {
     
     @IBAction func switchValueDidChange(_ sender: Any) {
         if ((sender as! UISwitch).isOn) {
-            BoardActive.client.isDevEnv = true
+            Branddrop.client.isDevEnv = true
         } else {
-            BoardActive.client.isDevEnv = false
+            Branddrop.client.isDevEnv = false
         }
     }
     

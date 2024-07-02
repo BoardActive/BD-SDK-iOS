@@ -45,7 +45,7 @@ class UserAttributesVC: UIViewController {
     
     fileprivate func getAttributeList() {
         activitiController.startAnimating()
-        BoardActive.client.getAttributes { (responseArray, error) in
+        Branddrop.client.getAttributes { (responseArray, error) in
             DispatchQueue.main.async {
                 if (responseArray != nil) {
                     for i in 0..<(responseArray?.count ?? 0) {
@@ -61,7 +61,7 @@ class UserAttributesVC: UIViewController {
     }
     
     fileprivate func getMe() {
-        BoardActive.client.getMe { (responseArray, error) in
+        Branddrop.client.getMe { (responseArray, error) in
             DispatchQueue.main.async {
                 self.activitiController.stopAnimating()
                 if (responseArray != nil) {
@@ -233,7 +233,7 @@ extension UserAttributesVC: ButtonCellDelegate {
         }
         tempData?["attributes"] = ["custom": dictCustom]
         self.activitiController.startAnimating()
-        BoardActive.client.updateUserData(body: tempData!) { (response, error) in
+        Branddrop.client.updateUserData(body: tempData!) { (response, error) in
             DispatchQueue.main.async {
                 self.activitiController.stopAnimating()
             }

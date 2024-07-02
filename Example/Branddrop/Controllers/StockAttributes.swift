@@ -46,7 +46,7 @@ class StockAttributes: UIViewController {
     
     fileprivate func getAttributeList() {
         activitiController.startAnimating()
-        BoardActive.client.getAttributes { (responseArray, error) in
+        Branddrop.client.getAttributes { (responseArray, error) in
             DispatchQueue.main.async {
                 self.activitiController.stopAnimating()
                 if (responseArray != nil) {
@@ -64,7 +64,7 @@ class StockAttributes: UIViewController {
     
     fileprivate func getMe() {
            activitiController.startAnimating()
-           BoardActive.client.getMe { (responseArray, error) in
+        Branddrop.client.getMe { (responseArray, error) in
                DispatchQueue.main.async {
                    self.activitiController.stopAnimating()
                    if (responseArray != nil) {
@@ -242,7 +242,7 @@ extension StockAttributes: ButtonCellDelegate {
         }
         tempData?["attributes"] = ["stock": dictStock]
         self.activitiController.startAnimating()
-        BoardActive.client.updateUserData(body: tempData!) { (response, error) in
+        Branddrop.client.updateUserData(body: tempData!) { (response, error) in
             DispatchQueue.main.async {
                 self.activitiController.stopAnimating()
             }

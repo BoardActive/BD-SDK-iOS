@@ -55,13 +55,12 @@ public extension String {
         static let ApplicationJSON = "application/json"
         static let GzipDeflate = "gzip, deflate"
         static let KeepAlive = "keep-alive"
-//        static let DevHostKey = "springer-api.boardactive.com"
-        static let DevHostKey = "boardactiveapi.dev.radixweb.net"
-        static let ProdHostKey = "api.boardactive.com"
+        static let DevHostKey = "api.branddrop.us"
+        static let ProdHostKey = "api.branddrop.us"
         static let iOS = "iOS"
         static let FCMToken = String.ConfigKeys.DeviceToken
-        static let AppId = BoardActive.client.userDefaults?.string(forKey: String.ConfigKeys.AppId)
-        static let AppKey = BoardActive.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey)
+        static let AppId = Branddrop.client.userDefaults?.string(forKey: String.ConfigKeys.AppId)
+        static let AppKey = Branddrop.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey)
         static let DeviceOSVersion = UIDevice.current.systemVersion
         static let DeviceType = UIDevice.modelName
         static let UUID = UIDevice.current.identifierForVendor!.uuidString

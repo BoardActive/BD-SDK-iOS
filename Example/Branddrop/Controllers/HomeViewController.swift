@@ -31,7 +31,7 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
         indicatorView.layer.cornerRadius = 10
         view.addSubview(indicatorView)
 
-//        BoardActive.client.editUser(attributes: Attributes(fromDictionary: ["demoAppUser": true]), httpMethod: String.HTTPMethod.PUT)
+//        Branddrop.client.editUser(attributes: Attributes(fromDictionary: ["demoAppUser": true]), httpMethod: String.HTTPMethod.PUT)
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView(notification:)), name: Notification.Name("Refresh HomeViewController Tableview"), object: nil)
         
@@ -64,8 +64,8 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
                 return }
         if let _ = notificationModel.aps, let messageId = notificationModel.messageId, let firebaseNotificationId = notificationModel.gcmmessageId, let notificationId = notificationModel.notificationId {
             
-            BoardActive.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
-                BoardActive.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
+            Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
+                Branddrop.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
                     
                     DispatchQueue.main.async {
                         self.indicatorView.stopAnimating()
@@ -92,7 +92,7 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
                  return }
          if let _ = notificationModel.aps, let messageId = notificationModel.messageId, let firebaseNotificationId = notificationModel.gcmmessageId, let notificationId = notificationModel.notificationId {
             
-             BoardActive.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
+             Branddrop.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
                  DispatchQueue.main.async {
                      self.indicatorView.stopAnimating()
                      let storyboard = UIStoryboard(name: "NotificationBoard", bundle: Bundle.main)
@@ -141,9 +141,9 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
     }
     
     private func setupLocalNotification() {
-        if !((BoardActive.client.userDefaults?.bool(forKey: "NOT_FIRSTLOGIN"))!) {
-            BoardActive.client.userDefaults?.set(true, forKey: "NOT_FIRSTLOGIN")
-            BoardActive.client.userDefaults?.synchronize()
+        if !((Branddrop.client.userDefaults?.bool(forKey: "NOT_FIRSTLOGIN"))!) {
+            Branddrop.client.userDefaults?.set(true, forKey: "NOT_FIRSTLOGIN")
+            Branddrop.client.userDefaults?.synchronize()
 
             let dictionary = [
                 "aps":[
@@ -159,7 +159,7 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
                 ] as [String:Any],
                 "date": Date().iso8601,
                 "title": "Welcome",
-                "body":"Congratulations on successfully downloading BoardActive’s app!",
+                "body":"Congratulations on successfully downloading Branddrop’s app!",
                 "messageId": "0000001",
                 "notificationId": "0000001",
                 "imageUrl": "https://ba-us-east-1-develop.s3.amazonaws.com/test-5d3ba9d0-cb1d-49ee-99f3-7bef45994e71",
@@ -170,18 +170,18 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
                 "googlecae":"0000001",
                 "tap": "0",
                 "messageData":[
-                    "body":"Congratulations on successfully downloading BoardActive’s app!",
-                    "email": "taylor@boardactive.com",
+                    "body":"Congratulations on successfully downloading Branddrop’s app!",
+                    "email": "taylor@branddrop.us",
                     "phoneNumber": "(678) 383-2200",
                     "promoDateEnds": "10/1/19",
                     "promoDateStarts": "5/1/19",
                     "storeAddress": "800 Battery Ave, SE Two Ballpark Center Suite 3132 Atlanta, GA 30339",
                     "title": "An awesome promotion",
-                    "urlFacebook": "https://www.facebook.com/BoardActive/",
-                    "urlLandingPage": "https://boardactive.com/",
-                    "urlLinkedIn": "https://www.linkedin.com/company/boardactive/",
+                    "urlFacebook": "https://www.facebook.com/Branddrop/",
+                    "urlLandingPage": "https://www.branddrop.us/",
+                    "urlLinkedIn": "https://www.linkedin.com/company/branddrop/",
                     "urlQRCode": "https://bit.ly/2FhOjiO",
-                    "urlTwitter": "https://twitter.com/boardactive",
+                    "urlTwitter": "https://twitter.com/branddrop",
                     "urlYoutube": "https://www.youtube.com/embed/5Fi6surCFpQ"] as [String:Any]
                 ] as [String : Any]
 
@@ -222,15 +222,15 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
         UIApplication.shared.applicationIconBadgeNumber = 0
 
         DispatchQueue.main.async {
-            BoardActive.client.stopUpdatingLocation()
+            Branddrop.client.stopUpdatingLocation()
         }
         
-        BoardActive.client.userDefaults?.removeObject(forKey: "NOT_FIRSTLOGIN")
-        BoardActive.client.userDefaults?.removeObject(forKey: String.ConfigKeys.DeviceRegistered)
-        BoardActive.client.userDefaults?.removeObject(forKey: String.ConfigKeys.Email)
-        BoardActive.client.userDefaults?.removeObject(forKey: String.ConfigKeys.Password)
-        BoardActive.client.userDefaults?.removeObject(forKey: .LoggedIn)
-        BoardActive.client.userDefaults?.synchronize()
+        Branddrop.client.userDefaults?.removeObject(forKey: "NOT_FIRSTLOGIN")
+        Branddrop.client.userDefaults?.removeObject(forKey: String.ConfigKeys.DeviceRegistered)
+        Branddrop.client.userDefaults?.removeObject(forKey: String.ConfigKeys.Email)
+        Branddrop.client.userDefaults?.removeObject(forKey: String.ConfigKeys.Password)
+        Branddrop.client.userDefaults?.removeObject(forKey: .LoggedIn)
+        Branddrop.client.userDefaults?.synchronize()
 
         self.navigationController?.popToRootViewController(animated: true)
     }
@@ -297,7 +297,7 @@ class HomeViewController: UIViewController, NotificationDelegate, UITableViewDel
         }
         
         if let _ = notificationModel.aps, let messageId = notificationModel.messageId, let firebaseNotificationId = notificationModel.gcmmessageId, let notificationId = notificationModel.notificationId {
-            BoardActive.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
+            Branddrop.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
         }
         
         let storyboard = UIStoryboard(name: "NotificationBoard", bundle: Bundle.main)

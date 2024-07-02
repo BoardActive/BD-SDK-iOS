@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //              locationManager?.requestAlwaysAuthorization()
                 locationManager?.startUpdatingLocation()
         }
-        NotificationCenter.default.addObserver(BoardActive.client, selector: #selector(BoardActive.client.updatePermissionStates), name: Notification.Name("Update user permission states"), object: nil)
+        NotificationCenter.default.addObserver(Branddrop.client, selector: #selector(Branddrop.client.updatePermissionStates), name: Notification.Name("Update user permission states"), object: nil)
         return true
     }
 
@@ -87,13 +87,13 @@ extension AppDelegate {
     func setupSDK() {
         let operationQueue = OperationQueue()
         let registerDeviceOperation = BlockOperation.init {
-            BoardActive.client.registerDevice { (parsedJSON, err) in
+            Branddrop.client.registerDevice { (parsedJSON, err) in
                 guard err == nil, let parsedJSON = parsedJSON else {
                     fatalError()
                 }
                 
-                BoardActive.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
-                BoardActive.client.userDefaults?.synchronize()
+                Branddrop.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
+                Branddrop.client.userDefaults?.synchronize()
                 
                 let userInfo = UserInfo.init(fromDictionary: parsedJSON)
                 StorageObject.container.userInfo = userInfo
@@ -106,12 +106,12 @@ extension AppDelegate {
         
         let monitorLocationOperation = BlockOperation.init {
             DispatchQueue.main.async {
-                BoardActive.client.monitorLocation()
+                Branddrop.client.monitorLocation()
             }
         }
         
         let saveGeofenceLocationOperation = BlockOperation.init {//add
-            BoardActive.client.storeAppLocations()
+            Branddrop.client.storeAppLocations()
         }
 
         monitorLocationOperation.addDependency(requestNotificationsOperation)
@@ -126,13 +126,13 @@ extension AppDelegate {
     
     public func requestNotifications() {
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
-            if BoardActive.client.userDefaults?.object(forKey: "dateNotificationRequested") == nil {
-                BoardActive.client.userDefaults?.set(Date().iso8601, forKey: "dateNotificationRequested")
-                BoardActive.client.userDefaults?.synchronize()
+            if Branddrop.client.userDefaults?.object(forKey: "dateNotificationRequested") == nil {
+                Branddrop.client.userDefaults?.set(Date().iso8601, forKey: "dateNotificationRequested")
+                Branddrop.client.userDefaults?.synchronize()
             }
             UNUserNotificationCenter.current().delegate = self
             self.configureCategory()
-            BoardActive.client.updatePermissionStates()
+            Branddrop.client.updatePermissionStates()
             guard error == nil, granted else {
                 return
             }
@@ -153,8 +153,8 @@ extension AppDelegate: MessagingDelegate {
      */
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         os_log("\n[AppDelegate] didReceiveRegistrationToken :: Firebase registration token: %s \n", fcmToken.debugDescription)
-        BoardActive.client.userDefaults?.set(fcmToken, forKey: "deviceToken")
-        BoardActive.client.userDefaults?.synchronize()
+        Branddrop.client.userDefaults?.set(fcmToken, forKey: "deviceToken")
+        Branddrop.client.userDefaults?.synchronize()
     }
 }
 
@@ -177,7 +177,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
      */
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if application.applicationState != .active && (userInfo[String.NotificationKeys.Typee] as? String == String.NotificationKeys.Update || userInfo[String.NotificationKeys.Typee] as? String == String.NotificationKeys.Place_update || userInfo[String.NotificationKeys.Typee] as? String == String.NotificationKeys.Campaign) {
-            BoardActive.client.userDefaults?.set(true, forKey: String.ConfigKeys.silentPushReceived)
+            Branddrop.client.userDefaults?.set(true, forKey: String.ConfigKeys.silentPushReceived)
         }
         handleNotification(application: application, userInfo: userInfo)
         completionHandler(UIBackgroundFetchResult.newData)
@@ -231,9 +231,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             isApplicationInBackground = false
             NotificationCenter.default.post(name: Notification.Name("display"), object: nil)
         }
-        if response.actionIdentifier == BoardActive.client.downloadActionIdentifier {
+        if response.actionIdentifier == Branddrop.client.downloadActionIdentifier {
             let strUrl = (userInfo["imageUrl"] as? String ?? "").trimmingCharacters(in: .whitespaces)
-            BoardActive.client.downloadAndSaveImageDownloadFromPush((self.window?.rootViewController)!, strUrl)
+            Branddrop.client.downloadAndSaveImageDownloadFromPush((self.window?.rootViewController)!, strUrl)
         }
 
         completionHandler()
@@ -256,7 +256,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             }
         } else if tempUserInfo[String.NotificationKeys.Typee] as? String == String.NotificationKeys.Place_update || tempUserInfo[String.NotificationKeys.Typee] as? String == String.NotificationKeys.Update || tempUserInfo[String.NotificationKeys.Typee] as? String == String.NotificationKeys.Campaign || tempUserInfo[String.NotificationKeys.Typee] as? String == String.NotificationKeys.Delete {
             UserDefaults(suiteName: "BAKit")?.set(nil, forKey: String.ConfigKeys.geoFenceLocations)
-            BoardActive.client.storeAppLocations()
+            Branddrop.client.storeAppLocations()
         }
         isReceviedEventUpdated = true
         StorageObject.container.notification = CoreDataStack.sharedInstance.createNotificationModel(fromDictionary: tempUserInfo)
@@ -272,15 +272,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             switch application.applicationState {
             case .active:
                 os_log("%s", String.ReceivedBackground)
-                BoardActive.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
+                Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
                 break
             case .background:
                 os_log("%s", String.ReceivedBackground)
-                BoardActive.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
+                Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
                 break
             case .inactive:
                 os_log("%s", String.TappedAndTransitioning)
-                BoardActive.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
+                Branddrop.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
                 break
             default:
                 break
@@ -290,9 +290,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     private func configureCategory() {
         // Define Actions
-        let downloadButton = UNNotificationAction(identifier: BoardActive.client.downloadActionIdentifier, title: "Download", options: UNNotificationActionOptions.foreground)
+        let downloadButton = UNNotificationAction(identifier: Branddrop.client.downloadActionIdentifier, title: "Download", options: UNNotificationActionOptions.foreground)
         // Define Category
-        let downloadCategory = UNNotificationCategory(identifier: BoardActive.client.categoryIdentifier, actions: [downloadButton], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        let downloadCategory = UNNotificationCategory(identifier: Branddrop.client.categoryIdentifier, actions: [downloadButton], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
         // Register Category
         UNUserNotificationCenter.current().setNotificationCategories([downloadCategory])
     }
@@ -304,7 +304,7 @@ extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
           print("entered in region")
-          BoardActive.client.stopMonitoring(region: region)
+            Branddrop.client.stopMonitoring(region: region)
       }
     }
     
@@ -318,16 +318,16 @@ extension AppDelegate: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
-            os_log("\n[BoardActive] didUpdateLocations :: Error: Last location of locations = nil.\n")
+            os_log("\n[Branddrop] didUpdateLocations :: Error: Last location of locations = nil.\n")
             return
         }
-        BoardActive.client.currentLocation = location
+        Branddrop.client.currentLocation = location
         
-        let flag: Bool = BoardActive.client.userDefaults?.value(forKey: String.ConfigKeys.silentPushReceived) as? Bool ?? false
+        let flag: Bool = Branddrop.client.userDefaults?.value(forKey: String.ConfigKeys.silentPushReceived) as? Bool ?? false
         if flag {
-            BoardActive.client.userDefaults?.set(false, forKey: String.ConfigKeys.silentPushReceived)
+            Branddrop.client.userDefaults?.set(false, forKey: String.ConfigKeys.silentPushReceived)
             UserDefaults(suiteName: "BAKit")?.set(nil, forKey: String.ConfigKeys.geoFenceLocations)
-            BoardActive.client.storeAppLocations()
+            Branddrop.client.storeAppLocations()
         }
         
         if UserDefaults.standard.value(forKey: String.ConfigKeys.traveledDistance) == nil {
@@ -336,10 +336,10 @@ extension AppDelegate: CLLocationManagerDelegate {
             let previous = UserDefaults.standard.value(forKey: String.ConfigKeys.traveledDistance) as! NSArray
             let previousLocation = CLLocation(latitude: previous[0] as! CLLocationDegrees, longitude: previous[1] as! CLLocationDegrees)
             let distanceInMeters = previousLocation.distance(from: location)
-            if distanceInMeters >= BoardActive.client.recordLocationAfterMeters {
+            if distanceInMeters >= Branddrop.client.recordLocationAfterMeters {
                 UserDefaults.standard.set([location.coordinate.latitude, location.coordinate.longitude], forKey: String.ConfigKeys.traveledDistance)
                 UserDefaults(suiteName: "BAKit")?.set(nil, forKey: String.ConfigKeys.geoFenceLocations)
-                BoardActive.client.storeAppLocations()
+                Branddrop.client.storeAppLocations()
             }
         }
     }

@@ -39,7 +39,7 @@ class AppPickingViewController: UITableViewController {
         
         self.tableView.tableFooterView = UIView()
 //        (UIApplication.shared.delegate! as! AppDelegate).setupSDK()
-        BoardActive.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
+        Branddrop.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
         NotificationCenter.default.addObserver(self, selector:  #selector(displayNotification), name: Notification.Name("display"), object: nil)
 //        if let loc = UserDefaults.standard.value(forKey: "locs") as? [String]{
 //            let alertController = UIAlertController(title: "Location", message: "\(loc)", preferredStyle: .alert)
@@ -60,9 +60,9 @@ class AppPickingViewController: UITableViewController {
                     return }
             if let _ = notificationModel.aps, let messageId = notificationModel.messageId, let firebaseNotificationId = notificationModel.gcmmessageId, let notificationId = notificationModel.notificationId {
                 indicatorView.startAnimating()
-                BoardActive.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
-                    BoardActive.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
-//                        BoardActive.client.sendNotification(msg: "both event is updated")
+                Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
+                    Branddrop.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
+//                        Branddrop.client.sendNotification(msg: "both event is updated")
                         DispatchQueue.main.async {
                             self.indicatorView.stopAnimating()
                             let storyboard = UIStoryboard(name: "NotificationBoard", bundle: Bundle.main)
@@ -106,11 +106,11 @@ class AppPickingViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedApp = StorageObject.container.apps[indexPath.row] as? BAKitApp
-        if let appId = selectedApp?.id, let appIsEnable = selectedApp?.isAppEnable, let appKey = BoardActive.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey) {
-            BoardActive.client.removeGeofenceLocations()
-            BoardActive.client.removeSaveUserLocations()
-            BoardActive.client.isAppEnable = appIsEnable
-            BoardActive.client.setupEnvironment(appID: "\(appId)", appKey: appKey)
+        if let appId = selectedApp?.id, let appIsEnable = selectedApp?.isAppEnable, let appKey = Branddrop.client.userDefaults?.string(forKey: String.ConfigKeys.AppKey) {
+            Branddrop.client.removeGeofenceLocations()
+            Branddrop.client.removeSaveUserLocations()
+            Branddrop.client.isAppEnable = appIsEnable
+            Branddrop.client.setupEnvironment(appID: "\(appId)", appKey: appKey)
         }
                 
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
@@ -124,9 +124,9 @@ class AppPickingViewController: UITableViewController {
                     return }
             if let _ = notificationModel.aps, let messageId = notificationModel.messageId, let firebaseNotificationId = notificationModel.gcmmessageId, let notificationId = notificationModel.notificationId {
                 indicatorView.startAnimating()
-                BoardActive.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
-                    BoardActive.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
-//                        BoardActive.client.sendNotification(msg: "both event is updated")
+                Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
+                    Branddrop.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId) {
+//                        Branddrop.client.sendNotification(msg: "both event is updated")
                         DispatchQueue.main.async {
                             self.indicatorView.stopAnimating()
                             let storyboard = UIStoryboard(name: "NotificationBoard", bundle: Bundle.main)

@@ -17,7 +17,7 @@ Branddrop's platform connects brands to consumers using location-based engagemen
 
 Use your Branddrop account to create Places (geo-fenced areas) and Messages (notifications) to deliver custom messages to your app users.
 
-[Click Here to get a Branddrop Account](https://app.boardactive.com/sign-up)
+[Click Here to get a Branddrop Account](https://app.branddrop.us/sign-up)
 
 Once a client has established at least one geofence, the BAKit SDK leverages any smart device's native location monitoring, determines when a user enters said geofence and dispatches a  *personalized* notification of the client's composition.
 ___
@@ -39,7 +39,7 @@ To use Firebase Cloud Messaging you must create a Firebase project.
 Once you create a related Firebase project you can download the ```GoogleService-Info.plist``` and hang on to that file for use in the "CocoaPods" section.
 
 ### Receiving your Branddrop AppKey
-* Please email the Firebase key found in the Firebase project settings “Service Accounts” -> “Firebase Admin SDK” under “Firebase service account” to [taylor@boardactive.com](taylor@boardactive.com) and he will respond with your  AppKey.
+* Please email the Firebase key found in the Firebase project settings “Service Accounts” -> “Firebase Admin SDK” under “Firebase service account” to [taylor@branddrop.us](taylor@branddrop.us) and he will respond with your  AppKey.
 
 ### Installing the BAKit SDK
 *  for iOS utilizes Swift 4.0 and supports iOS 10+.
@@ -133,7 +133,7 @@ Just inside the declaration of the ```AppDelegate``` class, the following variab
     var isReceviedEventUpdated = false
 ```
 
-After configuring Firebase and declaring ```AppDelegate```'s conformance to Firebase's ```MessagingDelegate```, store your Branddrop AppId and AppKey to ```BoardActive.client.userDefaults``` like so:
+After configuring Firebase and declaring ```AppDelegate```'s conformance to Firebase's ```MessagingDelegate```, store your Branddrop AppId and AppKey to ```Branddrop.client.userDefaults``` like so:
 
 ```swift
 func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
@@ -142,10 +142,10 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
     UNUserNotificationCenter.current().delegate = self
     
     // AppId is of type Int        
-    BoardActive.client.userDefaults?.set(<#AppId#>, forKey: "AppId")
+    Branddrop.client.userDefaults?.set(<#AppId#>, forKey: "AppId")
 
     // AppKey is of type String
-    BoardActive.client.userDefaults?.set(<#AppKey#>, forKey: "AppKey")
+    Branddrop.client.userDefaults?.set(<#AppKey#>, forKey: "AppKey")
 
     return true
 }
@@ -167,18 +167,18 @@ extension AppDelegate {
 /**
 Call this function after having received your FCM and APNS tokens.
 Additionally, you must have set your AppId and AppKey using the
-BoardActive class's userDefaults.
+Branddrop class's userDefaults.
 */
     func setupSDK() {
         let operationQueue = OperationQueue()
         let registerDeviceOperation = BlockOperation.init {
-            BoardActive.client.registerDevice { (parsedJSON, err) in
+                            Branddrop.client.registerDevice { (parsedJSON, err) in
                 guard err == nil, let parsedJSON = parsedJSON else {
                     fatalError()
                 }
 
-                BoardActive.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
-                BoardActive.client.userDefaults?.synchronize()
+                Branddrop.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
+                Branddrop.client.userDefaults?.synchronize()
             }
         }
 
@@ -188,7 +188,7 @@ BoardActive class's userDefaults.
 
         let monitorLocationOperation = BlockOperation.init {
             DispatchQueue.main.async {
-                BoardActive.client.monitorLocation()
+            Branddrop.client.monitorLocation()
             }
         }
 
@@ -202,11 +202,11 @@ BoardActive class's userDefaults.
 
     public func requestNotifications() {        
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in        
-            if BoardActive.client.userDefaults?.object(forKey: "dateNotificationRequested") == nil {
-                BoardActive.client.userDefaults?.set(Date().iso8601, forKey: "dateNotificationRequested")
-                BoardActive.client.userDefaults?.synchronize()
+            if Branddrop.client.userDefaults?.object(forKey: "dateNotificationRequested") == nil {
+                Branddrop.client.userDefaults?.set(Date().iso8601, forKey: "dateNotificationRequested")
+                Branddrop.client.userDefaults?.synchronize()
             }
-            BoardActive.client.updatePermissionStates()
+            Branddrop.client.updatePermissionStates()
             guard error == nil, granted else {
                 // Handle error and possibility of user not granting permission
                 return
@@ -232,8 +232,8 @@ extension AppDelegate: MessagingDelegate {
      * Subscribing to any topics.
      */
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        BoardActive.client.userDefaults?.set(fcmToken, forKey: "deviceToken")
-        BoardActive.client.userDefaults?.synchronize()
+        Branddrop.client.userDefaults?.set(fcmToken, forKey: "deviceToken")
+        Branddrop.client.userDefaults?.synchronize()
     }
 }
 ```
@@ -323,13 +323,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
        if let _ = userInfo["aps"] as? [String: Any], let messageId = userInfo["baMessageId"] as? String, let firebaseNotificationId = userInfo["gcm.message_id"] as? String, let notificationId =  userInfo["baNotificationId"] as? String {
             switch application.applicationState {
             case .active:
-                BoardActive.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
+                Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
                 break
             case .background:
-                BoardActive.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
+                Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
                 break
             case .inactive:
-                BoardActive.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
+                Branddrop.client.postEvent(name: String.Opened, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
                 break
             default:
                 break
@@ -352,7 +352,7 @@ Add the following to monitor for significant location updates whilst the app is 
                 locationManager.startMonitoringSignificantLocationChanges()
             }
         }
-        NotificationCenter.default.addObserver(BoardActive.client, selector: #selector(BoardActive.client.updatePermissionStates), name: Notification.Name("Update user permission states"), object: nil)
+        NotificationCenter.default.addObserver(Branddrop.client, selector: #selector(Branddrop.client.updatePermissionStates), name: Notification.Name("Update user permission states"), object: nil)
         return true
     }
     
@@ -369,7 +369,7 @@ Add the following to monitor for significant location updates whilst the app is 
     extension AppDelegate: CLLocationManagerDelegate {
         func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
             guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-            BoardActive.client.postLocation(location: manager.location!)
+            Branddrop.client.postLocation(location: manager.location!)
         }
     }
 
@@ -387,6 +387,6 @@ There is an example app included in the repo's code under ["Example"](https://gi
 
 Our team wants to help. Please contact us
 * Call us: [(678) 383-2200](tel:+6494461709)
-* Email Us [info@branddrop.us](mailto:info@branddrop.us)
-* Online Support [Web Site](https://app.boardactive.com) 
+* Email Us [taylor@branddrop.us](mailto:taylor@branddrop.us)
+* Online Support [Web Site](https://www.branddrop.us/) 
 
