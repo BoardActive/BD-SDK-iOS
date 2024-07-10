@@ -7,35 +7,22 @@
 		<key>BrandDrop.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>38</integer>
 		</dict>
 		<key>BrandDrop_Tests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>40</integer>
+		</dict>
+		<key>Content Extension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>41</integer>
 		</dict>
 		<key>NotificationPersistenceService.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
-		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>607FACCF1AFB9204008FA782</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>96CDB7F222F86AC10017EFF6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>96FEC816230F8B030087873D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
+			<integer>39</integer>
 		</dict>
 	</dict>
 </dict>
