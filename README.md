@@ -118,18 +118,9 @@ import os.log
 
 Prior to the declaration of the ```AppDelegate``` class, a protocol is declared. Those classes conforming to said protocol receive the notification in the example app:
 
-```swift
-protocol NotificationDelegate: NSObject {
-    func appReceivedRemoteNotification(notification: [AnyHashable: Any])
-    func appReceivedRemoteNotificationInForeground(notification: [AnyHashable: Any])
-}
-```
-
-Just inside the declaration of the ```AppDelegate``` class, the following variables and constants are declared:
+First of all, inside the declaration of the ```AppDelegate``` class, the following variables and constants are declared:
 
 ```swift
-    public weak var notificationDelegate: NotificationDelegate?
-
     private let authOptions = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
     
     //Flags use to manage notification behaviour in various states
@@ -275,8 +266,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if userInfo["notificationId"] as? String == "0000001" {
             handleNotification(application: UIApplication.shared, userInfo: userInfo)
         }
-
-        NotificationCenter.default.post(name: NSNotification.Name("Refresh HomeViewController Tableview"), object: nil, userInfo: userInfo)
         completionHandler(UNNotificationPresentationOptions.init(arrayLiteral: [.badge, .sound, .alert]))
     }
 
@@ -293,25 +282,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if isApplicationInBackground && !isNotificationStatusActive {
           isNotificationStatusActive = false
           isApplicationInBackground = false
-          if let _ = userInfo["aps"] as? [String: Any], let messageId = userInfo["baMessageId"] as? String, let firebaseNotificationId = userInfo["gcm.message_id"] as? String, let notificationId =  userInfo["baNotificationId"] as? String {
+          if let _ = userInfo["aps"] as? [String: Any], let messageId = userInfo["baMessageId"] as? String, let firebaseNotificationId = userInfo["firebaseNotificationId"] as? String, let notificationId =  userInfo["baNotificationId"] as? String {
              if (isReceviedEventUpdated) {
-                 self.notificationDelegate?.appReceivedRemoteNotificationInForeground(notification: userInfo)
-             } else {
-                 self.notificationDelegate?.appReceivedRemoteNotification(notification: userInfo)
+                Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
              }
-          }
+          }s
 
        } else if isAppActive && !isNotificationStatusActive {         
            if (isReceviedEventUpdated) {
-               self.notificationDelegate?.appReceivedRemoteNotificationInForeground(notification: userInfo)
-           } else {
-               self.notificationDelegate?.appReceivedRemoteNotification(notification: userInfo)
+              Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
            }
 
        } else {
            isNotificationStatusActive = true
            isApplicationInBackground = false
-           NotificationCenter.default.post(name: Notification.Name("display"), object: nil)
+           Branddrop.client.postEvent(name: String.Opened, messageId: userInfo["baMessageId"] as? String ?? "", firebaseNotificationId: userInfo["firebaseNotificationId"] as? String ?? "", notificationId: userInfo["baNotificationId"] as? String ?? "")
        }
 
        completionHandler()
@@ -326,7 +311,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         NotificationCenter.default.post(name: NSNotification.Name("Refresh HomeViewController Tableview"), object: nil, userInfo: userInfo)
 
-       if let _ = userInfo["aps"] as? [String: Any], let messageId = userInfo["baMessageId"] as? String, let firebaseNotificationId = userInfo["gcm.message_id"] as? String, let notificationId =  userInfo["baNotificationId"] as? String {
+       if let _ = userInfo["aps"] as? [String: Any], let messageId = userInfo["baMessageId"] as? String, let firebaseNotificationId = userInfo["firebaseNotificationId"] as? String, let notificationId =  userInfo["baNotificationId"] as? String {
             switch application.applicationState {
             case .active:
                 Branddrop.client.postEvent(name: String.Received, messageId: messageId, firebaseNotificationId: firebaseNotificationId, notificationId: notificationId)
@@ -351,11 +336,13 @@ Add the following to monitor for significant location updates whilst the app is 
     if launchOptions?[UIApplicationLaunchOptionsKey.location] != nil {
             let locationManager = CLLocationManager()
             if CLLocationManager.locationServicesEnabled() {
-                locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                locationManager.delegate = self
-                locationManager.pausesLocationUpdatesAutomatically = false
-                locationManager.allowsBackgroundLocationUpdates = true
-                locationManager.startMonitoringSignificantLocationChanges()
+                    locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+                    locationManager?.distanceFilter = kCLDistanceFilterNone
+                    locationManager?.pausesLocationUpdatesAutomatically = false
+                    locationManager?.allowsBackgroundLocationUpdates = true
+                    locationManager?.startMonitoringSignificantLocationChanges()
+                    locationManager?.activityType = .otherNavigation
+                    locationManager?.startUpdatingLocation()
             }
         }
         NotificationCenter.default.addObserver(Branddrop.client, selector: #selector(Branddrop.client.updatePermissionStates), name: Notification.Name("Update user permission states"), object: nil)
