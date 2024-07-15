@@ -12,12 +12,12 @@
 		<key>BrandDrop_Tests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>40</integer>
+			<integer>41</integer>
 		</dict>
 		<key>Content Extension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>41</integer>
+			<integer>40</integer>
 		</dict>
 		<key>NotificationPersistenceService.xcscheme_^#shared#^_</key>
 		<dict>
