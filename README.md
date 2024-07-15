@@ -90,6 +90,10 @@ Requesting location permission requires the follow entries in your ```Info.plist
 
 Under your app's primary target you will need to edit it's **Capabilities** as follows:  
 1. Enable **Background Modes**. Apple provides documentation explain the various **Background Modes** [here](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW22) 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 9e756a019b61086552daa07c1c4220abb67570a3
 2. Tick the checkbox *Location updates*
 3. Tick the checkbox *Background Fetch* 
 4. Tick the checkbox *Remote notifications*  

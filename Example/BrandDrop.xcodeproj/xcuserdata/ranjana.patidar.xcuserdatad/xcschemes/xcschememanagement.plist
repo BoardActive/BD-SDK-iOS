@@ -7,16 +7,31 @@
 		<key>BrandDrop.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+<<<<<<< HEAD
+			<integer>38</integer>
+=======
 			<integer>39</integer>
+>>>>>>> 9e756a019b61086552daa07c1c4220abb67570a3
 		</dict>
 		<key>BrandDrop_Tests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+<<<<<<< HEAD
+			<integer>41</integer>
+		</dict>
+		<key>Content Extension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+=======
+>>>>>>> 9e756a019b61086552daa07c1c4220abb67570a3
 			<integer>40</integer>
 		</dict>
 		<key>NotificationPersistenceService.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+<<<<<<< HEAD
+			<integer>39</integer>
+=======
 			<integer>38</integer>
 		</dict>
 	</dict>
@@ -36,6 +51,7 @@
 		<dict>
 			<key>primary</key>
 			<true/>
+>>>>>>> 9e756a019b61086552daa07c1c4220abb67570a3
 		</dict>
 	</dict>
 </dict>
