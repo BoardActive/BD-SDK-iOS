@@ -38,7 +38,7 @@ public enum AuthorizationMode: String {
 }
 
 /**
-These are all the general errors which may occur in the SDK.
+ These are all the general errors which may occur in the SDK.
  */
 enum BAKitError: Error {
     case appDisable
@@ -62,17 +62,20 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
     public var currentLocation = CLLocation()
     private var isGeoLocationCalled = false
     
-//    public var previousUserLocation: CLLocation?
-//    public var distanceBetweenLocations: CLLocationDistance?
+    //    public var previousUserLocation: CLLocation?
+    //    public var distanceBetweenLocations: CLLocationDistance?
     
     public let categoryIdentifier = "PreviewNotification"
     public let downloadActionIdentifier = "download"
-
+    private var isUserDriving: Bool = false
+    private var lastLocations: [CLLocation] = []
+    private let speedThreshold: Double = 8.0 // ~29 km/h or 18 mph
+    
     private override init() {}
-
+    
     /**
      Sets the `appID`, `appKey`, and `fcmToken` in the `UserDefaults` to those of the parameters before calling `FirebaseApp.configure()`.
-
+     
      - parameter appID: The app's ID.
      - parameter appKey: The app's key.
      - parameter fcmToken: The FCM token for this device.
@@ -82,7 +85,7 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
         userDefaults?.set(appKey, forKey: String.ConfigKeys.AppKey)
         userDefaults?.synchronize()
     }
-
+    
     deinit {
         stopUpdatingLocation()
     }
@@ -102,14 +105,28 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
         Branddrop.client.locationManager.activityType = .otherNavigation
     }
     
-      /**
-       Calls `stopUpdatingLocation` on Branddrop's private CLLocationManager property.
-       */
-      public func stopUpdatingLocationandReinitialize() {
-            Branddrop.client.locationManager.stopUpdatingLocation()
-            Branddrop.client.locationManager.startMonitoringSignificantLocationChanges()
-      }
+    private func setWalkingMode() {
+        Branddrop.client.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        Branddrop.client.locationManager.distanceFilter = 10
+        Branddrop.client.locationManager.activityType = .fitness
+        isUserDriving = false
+    }
+    private func setDrivingMode() {
+        Branddrop.client.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        Branddrop.client.locationManager.distanceFilter = 50
+        Branddrop.client.locationManager.activityType = .automotiveNavigation
+        isUserDriving = true
+    }
 
+    
+    /**
+     Calls `stopUpdatingLocation` on Branddrop's private CLLocationManager property.
+     */
+    public func stopUpdatingLocationandReinitialize() {
+        Branddrop.client.locationManager.stopUpdatingLocation()
+        Branddrop.client.locationManager.startMonitoringSignificantLocationChanges()
+    }
+    
     //MARK: - Core Location
     
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -118,6 +135,24 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             return
         }
         Branddrop.client.currentLocation = location
+        
+        // Keep last 5 locations for speed calculation
+        lastLocations.append(location)
+        if lastLocations.count > 5 {
+            lastLocations.removeFirst()
+        }
+        // Detect driving based on speed
+        detectDrivingState(location)
+        // Process location if accuracy is good enough
+        if location.horizontalAccuracy <= 10 {
+            let minimumUpdateInterval: TimeInterval = isUserDriving ? 30 : 15
+            if let lastUpdate = lastLocationUpdate,
+               Date().timeIntervalSince(lastUpdate) < minimumUpdateInterval {
+                return
+            }
+            lastLocationUpdate = Date()
+            processLocationUpdate(location)
+        }
         
         if UserDefaults.standard.value(forKey: String.ConfigKeys.traveledDistance) == nil {
             UserDefaults.standard.set([location.coordinate.latitude, location.coordinate.longitude], forKey: String.ConfigKeys.traveledDistance)
@@ -142,50 +177,85 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             self.isGeoLocationCalled = true
             Branddrop.client.storeAppLocations()
         }
-
-       /* if let locationList = userDefaults?.value(forKey: String.ConfigKeys.userLocations) as? [[String: Double]] {
-            Branddrop.client.previousUserLocation = CLLocation(latitude: locationList.last?[String.NetworkCallRelated.Latitude] ?? 0.0, longitude: locationList.last?[String.NetworkCallRelated.Longitude] ?? 0.0)
+        
+        /* if let locationList = userDefaults?.value(forKey: String.ConfigKeys.userLocations) as? [[String: Double]] {
+         Branddrop.client.previousUserLocation = CLLocation(latitude: locationList.last?[String.NetworkCallRelated.Latitude] ?? 0.0, longitude: locationList.last?[String.NetworkCallRelated.Longitude] ?? 0.0)
+         }
+         
+         if (Branddrop.client.previousUserLocation == nil) {
+         Branddrop.client.previousUserLocation = location
+         saveLocationLocally(location: location)
+         
+         } else if let previousLocation = Branddrop.client.previousUserLocation, location.distance(from: previousLocation) > recordLocationAfterMeters {
+         Branddrop.client.previousUserLocation = location
+         saveLocationLocally(location: location)
+         } */
+        
+        //        if CLLocationManager.locationServicesEnabled() {
+        //            switch CLLocationManager.authorizationStatus() {
+        //            case .notDetermined, .restricted, .denied, .authorizedWhenInUse:
+        //                Branddrop.client.userDefaults?.set(false, forKey: String.Attribute.LocationPermission)
+        //            case .authorizedAlways:
+        //                Branddrop.client.userDefaults?.set(true, forKey: String.Attribute.LocationPermission)
+        //            }
+        //            Branddrop.client.userDefaults?.synchronize()
+        //        }
+        //
+        //        if Branddrop.client.userDefaults?.object(forKey: String.Attribute.DateLocationRequested) == nil {
+        //            let date = Date().iso8601
+        //            Branddrop.client.userDefaults?.set(date, forKey: String.Attribute.DateLocationRequested)
+        //            Branddrop.client.userDefaults?.synchronize()
+        ////            Branddrop.client.editUser(attributes: Attributes(fromDictionary: ["dateLocationRequested": date]), httpMethod: String.HTTPMethod.PUT)
+        //        }
+        //
+        //        if Branddrop.client.currentLocation == nil {
+        //            Branddrop.client.currentLocation = location
+        //            postLocation(location: location)
+        //        }
+        //
+        //        if let currentLocation = Branddrop.client.currentLocation, location.distance(from: currentLocation) < 10.0 {
+        //            Branddrop.client.distanceBetweenLocations = (Branddrop.client.distanceBetweenLocations ?? 0.0) + location.distance(from: currentLocation)
+        //        } else {
+        //            postLocation(location: location)
+        //            Branddrop.client.distanceBetweenLocations = 0.0
+        //        }
+        
+        //        Branddrop.client.currentLocation = location
+    }
+    
+    private func detectDrivingState(_ location: CLLocation) {
+        // Method 1: Using instantaneous speed
+        let currentSpeed = location.speed
+        // Method 2: Using average speed over last few updates
+        let averageSpeed = calculateAverageSpeed()
+        // Use either current speed or average speed to determine driving state
+        if currentSpeed > speedThreshold || averageSpeed > speedThreshold {
+            if !isUserDriving {
+                setDrivingMode()
+            }
+        } else {
+            if isUserDriving {
+                setWalkingMode()
+            }
         }
-        
-        if (Branddrop.client.previousUserLocation == nil) {
-            Branddrop.client.previousUserLocation = location
-            saveLocationLocally(location: location)
-            
-        } else if let previousLocation = Branddrop.client.previousUserLocation, location.distance(from: previousLocation) > recordLocationAfterMeters {
-            Branddrop.client.previousUserLocation = location
-            saveLocationLocally(location: location)
-        } */
-        
-//        if CLLocationManager.locationServicesEnabled() {
-//            switch CLLocationManager.authorizationStatus() {
-//            case .notDetermined, .restricted, .denied, .authorizedWhenInUse:
-//                Branddrop.client.userDefaults?.set(false, forKey: String.Attribute.LocationPermission)
-//            case .authorizedAlways:
-//                Branddrop.client.userDefaults?.set(true, forKey: String.Attribute.LocationPermission)
-//            }
-//            Branddrop.client.userDefaults?.synchronize()
-//        }
-//
-//        if Branddrop.client.userDefaults?.object(forKey: String.Attribute.DateLocationRequested) == nil {
-//            let date = Date().iso8601
-//            Branddrop.client.userDefaults?.set(date, forKey: String.Attribute.DateLocationRequested)
-//            Branddrop.client.userDefaults?.synchronize()
-////            Branddrop.client.editUser(attributes: Attributes(fromDictionary: ["dateLocationRequested": date]), httpMethod: String.HTTPMethod.PUT)
-//        }
-//
-//        if Branddrop.client.currentLocation == nil {
-//            Branddrop.client.currentLocation = location
-//            postLocation(location: location)
-//        }
-//
-//        if let currentLocation = Branddrop.client.currentLocation, location.distance(from: currentLocation) < 10.0 {
-//            Branddrop.client.distanceBetweenLocations = (Branddrop.client.distanceBetweenLocations ?? 0.0) + location.distance(from: currentLocation)
-//        } else {
-//            postLocation(location: location)
-//            Branddrop.client.distanceBetweenLocations = 0.0
-//        }
-
-//        Branddrop.client.currentLocation = location
+    }
+    private func calculateAverageSpeed() -> Double {
+        guard lastLocations.count >= 2 else { return 0 }
+        var totalSpeed: Double = 0
+        var count: Double = 0
+        for i in 1..<lastLocations.count {
+            let speed = lastLocations[i].speed
+            if speed >= 0 { // Valid speed readings only
+                totalSpeed += speed
+                count += 1
+            }
+        }
+        return count > 0 ? totalSpeed / count : 0
+    }
+    private var lastLocationUpdate: Date?
+    
+    private func processLocationUpdate(_ location: CLLocation) {
+        // Handle your location update here
     }
     
     public func getAttributes(completionHandler: @escaping([[String: Any]]?, Error?) -> Void) {
@@ -198,35 +268,35 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-      
-      
-      public func updateUserData(body: [String: Any], completionHandler: @escaping ([String: Any]?, Error?) -> Void) {
-          let path = "\(EndPoints.Me)"
-
-          callServer(path: path, httpMethod: String.HTTPMethod.PUT, body: body) { parsedJSON, err in
-              guard err == nil else {
-                  completionHandler(nil, err)
-                  return
-              }
-
-              completionHandler(parsedJSON, nil)
-              return
-          }
-      }
-      
-      public func getMe(completionHandler: @escaping([String: Any]?, Error?) -> Void) {
-          let path = "\(EndPoints.Me)"
-
-          callServer(path: path, httpMethod: String.HTTPMethod.GET, body: [:]) { parsedJSON, err in
-                       guard err == nil else {
-                           completionHandler(nil, err)
-                           return
-                       }
-                  os_log("[Branddrop] :: login: %s", parsedJSON.debugDescription)
-                       completionHandler(parsedJSON, nil)
-                       return
-                   }
-      }
+    
+    
+    public func updateUserData(body: [String: Any], completionHandler: @escaping ([String: Any]?, Error?) -> Void) {
+        let path = "\(EndPoints.Me)"
+        
+        callServer(path: path, httpMethod: String.HTTPMethod.PUT, body: body) { parsedJSON, err in
+            guard err == nil else {
+                completionHandler(nil, err)
+                return
+            }
+            
+            completionHandler(parsedJSON, nil)
+            return
+        }
+    }
+    
+    public func getMe(completionHandler: @escaping([String: Any]?, Error?) -> Void) {
+        let path = "\(EndPoints.Me)"
+        
+        callServer(path: path, httpMethod: String.HTTPMethod.GET, body: [:]) { parsedJSON, err in
+            guard err == nil else {
+                completionHandler(nil, err)
+                return
+            }
+            os_log("[Branddrop] :: login: %s", parsedJSON.debugDescription)
+            completionHandler(parsedJSON, nil)
+            return
+        }
+    }
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         guard let clError = error as? CLError else {
@@ -270,34 +340,34 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
      Functions as an as needed means of procuring the user's current location.
      - Returns: `CLLocation?` An optional `CLLocation` obtained by `CLLocationManager's` `requestLocation()` function.
      */
-  /*  public func getCurrentLocations() -> Dictionary<String, String>? {
-        if let latitude = previousUserLocation?.coordinate.latitude, let longitude = previousUserLocation?.coordinate.longitude {
-            return [String.NetworkCallRelated.Latitude: "\(latitude)", String.NetworkCallRelated.Longitude: "\(longitude)"]
-        }
-        return nil
-    } */
-
+    /*  public func getCurrentLocations() -> Dictionary<String, String>? {
+     if let latitude = previousUserLocation?.coordinate.latitude, let longitude = previousUserLocation?.coordinate.longitude {
+     return [String.NetworkCallRelated.Latitude: "\(latitude)", String.NetworkCallRelated.Longitude: "\(longitude)"]
+     }
+     return nil
+     } */
+    
     /**
      Calls `stopUpdatingLocation` on Branddrop's private CLLocationManager property.
      */
     public func stopUpdatingLocation() {
         Branddrop.client.locationManager.stopUpdatingLocation()
     }
-
+    
     // MARK: SDK Functions
-
+    
     public func getHeaders() -> [String: String]? {
         guard let tokenString = userDefaults?.object(forKey: String.HeaderValues.FCMToken) as? String else {
             return nil
         }
-
+        
         let hostKey: String
         if isDevEnv {
             hostKey = String.HeaderValues.DevHostKey
         } else {
             hostKey = String.HeaderValues.ProdHostKey
         }
-
+        
         let headers: [String: String] = [
             String.HeaderKeys.AcceptEncodingHeader: String.HeaderValues.GzipDeflate,
             String.HeaderKeys.AcceptHeader: String.HeaderValues.WildCards,
@@ -317,7 +387,7 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
         ]
         return headers
     }
-
+    
     private func retrievePath(isDev: Bool) -> String {
         if isDevEnv {
             return EndPoints.DevEndpoint
@@ -325,7 +395,7 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             return EndPoints.ProdEndpoint
         }
     }
-
+    
     /**
      Retrieves a user attributes and affiliated apps.
      - Returns: Closure containing client/user information.
@@ -336,69 +406,69 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             String.ConfigKeys.Email: email,
             String.ConfigKeys.Password: password,
         ]
-      
+        
         callServer(path: path, httpMethod: String.HTTPMethod.POST, body: body as Dictionary<String, AnyObject>, verifyAppEnable: false) { parsedJSON, err in
             guard err == nil else {
                 completionHandler(nil, err)
                 return
             }
-
+            
             os_log("[Branddrop] :: login: %s", parsedJSON.debugDescription)
             completionHandler(parsedJSON, nil)
             // since login requires email, update user after email is given
             DispatchQueue.main.async {
                 Branddrop.client.editUser(attributes: Attributes(fromDictionary: ["stock": ["email": email]]), httpMethod: String.HTTPMethod.PUT)
             }
-          
+            
             return
         }
     }
-
+    
     /**
      Associates a particular device with a user's account.
      - Returns: Closure containing a user's attributes.
      */
     public func registerDevice(completionHandler: @escaping ([String: Any]?, Error?) -> Void) {
         let path = "\(EndPoints.Me)"
-
+        
         let body: [String: Any] = [
             String.ConfigKeys.Email: Branddrop.client.userDefaults?.object(forKey: String.ConfigKeys.Email) as Any,
             String.HeaderKeys.DeviceOSHeader: String.HeaderValues.iOS,
             String.HeaderKeys.DeviceOSVersionHeader: String.HeaderValues.DeviceOSVersion,
         ]
-
+        
         callServer(path: path, httpMethod: String.HTTPMethod.PUT, body: body, verifyAppEnable: false) { parsedJSON, err in
             guard err == nil else {
                 completionHandler(nil, err)
                 return
             }
-
+            
             Branddrop.client.userDefaults?.set(true, forKey: String.ConfigKeys.DeviceRegistered)
             completionHandler(parsedJSON, nil)
             return
         }
     }
-
+    
     /**
      Creates an Event using the information provided and then logs said Event to the Branddrop server.
-
+     
      - Parameter name: `String`
      - Parameter messageId: `String` The value associated with the key "messageId" in notifications.
      - Parameter firebaseNotificationId: `String` The value associated with key "gcm.message_id" in notifications.
      */
     public func postEvent(name: String, messageId: String, firebaseNotificationId: String, notificationId: String, completionHandler: (() -> Void)? = nil) {
         let path = "\(EndPoints.Events)"
-
+        
         let body: [String: Any] = [
             String.EventKeys.EventName: name,
             String.EventKeys.MessageId: messageId,
             String.EventKeys.FirebaseNotificationId: firebaseNotificationId,
             String.EventKeys.NotificationId: notificationId
-//            String.EventKeys.Inbox: ["": ""],
+            //            String.EventKeys.Inbox: ["": ""],
         ]
         
         print("body: \(body)")
-
+        
         callServer(path: path, httpMethod: String.HTTPMethod.POST, body: body) { _, err in
             guard err == nil else {
                 if completionHandler != nil {
@@ -411,10 +481,10 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-
+    
     /**
      Derives a latitude and longitude from the location parameter, couples the coordinate with an iso8601 formatted date, and then updates the server and database with user's timestamped location.
-
+     
      - Parameter location: `CLLocation`
      */
     public func postLocation(location: CLLocation) {
@@ -430,36 +500,36 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-
+    
     /**
      A means of updating the user's associated attributes.
-
+     
      - Parameter attributes: `Attributes` An instance of the `Attributes` class. Include only those keys whose values you intend to edit.
      - Parameter httpMethod: `String` Either `String.HTTPMethod.POST` ("POST") or `String.HTTPMethod.PUT` ("PUT").
-      */
+     */
     public func editUser(attributes: Attributes, httpMethod: String) {
-      
+        
         let path = "\(EndPoints.Me)"
-
+        
         let body: [String: Any] = [
             String.Attribute.Attrs: [
                 String.Attribute.Stock: attributes.toDictionary()[String.Attribute.Stock],
                 String.Attribute.Custom: attributes.toDictionary()[String.Attribute.Custom],
             ] as AnyObject,
         ]
-
+        
         callServer(path: path, httpMethod: httpMethod, body: body) { parsedJSON, err in
             guard err == nil else {
                 // Handle Error
                 return
             }
-          
+            
             os_log("\n[Branddrop] :: editUser: %s\n", parsedJSON.debugDescription)
         }
     }
     
     /**
-        A method to get the list of geofence location.
+     A method to get the list of geofence location.
      */
     public func downloadGeofenceLocation(completionHandler: @escaping ([String: Any]?, Error?) -> Void) {
         if Branddrop.client.currentLocation.coordinate.latitude != 0 && Branddrop.client.currentLocation.coordinate.longitude != 0 {
@@ -481,17 +551,17 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-
+    
     /**
      Creates a `URLSession` given the parameters provided and returns a completion handler containing either a `Dictionary` of the parsed, returned JSON, or an error.
-
+     
      - Parameter path:  String The path the `URLSession` calls.
      - Parameter httpMethod: String Corresponding `HTTPMethod`
      - Parameter body: [String:Any] Dictionary of what will become the `URLRequest`'s body.
      - Parameter completionHandler: [String: Any]?
      */
     public func callServer(path: String, httpMethod: String, body: [String: Any], verifyAppEnable: Bool = true, completionHandler:
-        @escaping ([String: Any]?, Error?) -> Void) {
+                           @escaping ([String: Any]?, Error?) -> Void) {
         if (verifyAppEnable && !isAppEnable) {
             print("App is disable")
             completionHandler(nil, BAKitError.appDisable)
@@ -501,41 +571,41 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
         let destination = retrievePath(isDev: isDevEnv) + path
         let parameters = body as [String: Any]
         var bodyData = Data()
-
+        
         do {
             try bodyData = JSONSerialization.data(withJSONObject: parameters, options: [])
         } catch {
             print("[Branddrop] :: callServer :: bodyData serialization error.")
         }
-
+        
         let request = NSMutableURLRequest(url: NSURL(string: destination)! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 60.0)
-
+        
         guard let headers = getHeaders(), !headers.isEmpty else {
             os_log("[BA:client:callServer] :: NSMutableURLRequest:headers :: %s", getHeaders()?.debugDescription ?? "Empty Headers")
             return
         }
-
+        
         request.allHTTPHeaderFields = headers
         request.httpMethod = httpMethod
-
+        
         if path == EndPoints.Me && httpMethod == String.HTTPMethod.GET {
             request.httpBody = nil
         } else {
             request.httpBody = bodyData as Data
         }
-
+        
         let session = URLSession.shared
-
+        
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             guard error == nil, let _ = response as? HTTPURLResponse else {
                 os_log("[BA:client:callServer] :: dataTask:error : %s", error!.localizedDescription)
                 return
             }
-
+            
             if let data = data, (try? JSONSerialization.jsonObject(with: data)) != nil {
                 if let dataString = String(data: data, encoding: .utf8) {
                     os_log("[BA:client:callServer] :: dataString : %@", dataString)
-
+                    
                     completionHandler(Branddrop.client.convertToDictionary(text: dataString), nil)
                     return
                 }
@@ -543,7 +613,7 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
         })
         dataTask.resume()
     }
-
+    
     public func callServer(forList path: String, httpMethod: String, body: [String: Any], verifAppEnable: Bool = true, completionHandler:@escaping ([[String: Any]]?, Error?) -> Void) {
         if (verifAppEnable && !isAppEnable) {
             print("App is disable")
@@ -551,47 +621,47 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
             return
         }
         
-          let destination = retrievePath(isDev: isDevEnv) + path
-          let parameters = body as [String: Any]
-
-          let request = NSMutableURLRequest(url: NSURL(string: destination)! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 60.0)
-
-          guard let headers = getHeaders(), !headers.isEmpty else {
-              os_log("[BA:client:callServer] :: NSMutableURLRequest:headers :: %s", getHeaders()?.debugDescription ?? "Empty Headers")
-              return
-          }
-          request.allHTTPHeaderFields = headers
-          request.httpMethod = httpMethod
-          let session = URLSession.shared
-
-          let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-              guard error == nil, let _ = response as? HTTPURLResponse else {
-                  os_log("[BA:client:callServer] :: dataTask:error : %s", error!.localizedDescription)
-                  return
-              }
-
-              if let data = data, (try? JSONSerialization.jsonObject(with: data)) != nil {
-                  if let dataString = String(data: data, encoding: .utf8) {
-                      os_log("[BA:client:callServer] :: dataString : %@", dataString)
-
-                      completionHandler(Branddrop.client.convertToDictionary(ofArray: dataString), nil)
-                      return
-                  }
-              }
-          })
-          dataTask.resume()
-      }
-      
+        let destination = retrievePath(isDev: isDevEnv) + path
+        let parameters = body as [String: Any]
+        
+        let request = NSMutableURLRequest(url: NSURL(string: destination)! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 60.0)
+        
+        guard let headers = getHeaders(), !headers.isEmpty else {
+            os_log("[BA:client:callServer] :: NSMutableURLRequest:headers :: %s", getHeaders()?.debugDescription ?? "Empty Headers")
+            return
+        }
+        request.allHTTPHeaderFields = headers
+        request.httpMethod = httpMethod
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            guard error == nil, let _ = response as? HTTPURLResponse else {
+                os_log("[BA:client:callServer] :: dataTask:error : %s", error!.localizedDescription)
+                return
+            }
+            
+            if let data = data, (try? JSONSerialization.jsonObject(with: data)) != nil {
+                if let dataString = String(data: data, encoding: .utf8) {
+                    os_log("[BA:client:callServer] :: dataString : %@", dataString)
+                    
+                    completionHandler(Branddrop.client.convertToDictionary(ofArray: dataString), nil)
+                    return
+                }
+            }
+        })
+        dataTask.resume()
+    }
+    
     func convertToDictionary(ofArray text: String) -> [[String: Any]]? {
-           if let data = text.data(using: .utf8) {
-               do {
-                   return try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
-               } catch {
-                   print(error.localizedDescription)
-               }
-           }
-           return nil
-       }
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
     
     func convertToDictionary(text: String) -> [String: Any]? {
         if let data = text.data(using: .utf8) {
@@ -605,38 +675,38 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
     }
     
     //Find and update the location permission and notification permission in the backend.
-       @objc public func updatePermissionStates() {
-           var locationSharingEnable = false
-           let center = UNUserNotificationCenter.current()
-
-           if CLLocationManager.locationServicesEnabled() {
-                switch CLLocationManager.authorizationStatus() {
-                   case .notDetermined, .restricted, .denied:
-                       locationSharingEnable = false
-
-                   case .authorizedAlways, .authorizedWhenInUse:
-                       locationSharingEnable = true
-                   default:
-                       locationSharingEnable = false
-               }
-           }
-
-           center.getNotificationSettings { (settings) in
-               var notificationPermission = false
-               if(settings.authorizationStatus == .authorized) {
-                   notificationPermission = true
-
-               } else {
-                   notificationPermission = false
-               }
-               let dictPara: [String: Any] = ["notificationPermission": notificationPermission,
-                                              "locationPermission": locationSharingEnable]
-               let body =  ["attributes" : ["stock": dictPara]]
-               Branddrop.client.updateUserData(body: body) { (response, error) in
-                 print(response as Any)
-               }
-           }
-       }
+    @objc public func updatePermissionStates() {
+        var locationSharingEnable = false
+        let center = UNUserNotificationCenter.current()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted, .denied:
+                locationSharingEnable = false
+                
+            case .authorizedAlways, .authorizedWhenInUse:
+                locationSharingEnable = true
+            default:
+                locationSharingEnable = false
+            }
+        }
+        
+        center.getNotificationSettings { (settings) in
+            var notificationPermission = false
+            if(settings.authorizationStatus == .authorized) {
+                notificationPermission = true
+                
+            } else {
+                notificationPermission = false
+            }
+            let dictPara: [String: Any] = ["notificationPermission": notificationPermission,
+                                           "locationPermission": locationSharingEnable]
+            let body =  ["attributes" : ["stock": dictPara]]
+            Branddrop.client.updateUserData(body: body) { (response, error) in
+                print(response as Any)
+            }
+        }
+    }
     
     /**
      Function remove save user locations.
@@ -678,11 +748,11 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
         let alert = UIAlertController(title: "Do you want to download the image?", message:"", preferredStyle: UIAlertController.Style.alert)
         // add an action (button)
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) { (action) in
-//            let strUrl = (userInfo["imageUrl"] as? String ?? "").trimmingCharacters(in: .whitespaces)
+            //            let strUrl = (userInfo["imageUrl"] as? String ?? "").trimmingCharacters(in: .whitespaces)
             if let url = URL(string: strUrl) {
                 let task = URLSession.shared.dataTask(with: url) { data, response, error in
                     guard let data = data, error == nil else { return }
-                        UIImageWriteToSavedPhotosAlbum(UIImage(data: data)!, nil, nil, nil)
+                    UIImageWriteToSavedPhotosAlbum(UIImage(data: data)!, nil, nil, nil)
                 }
                 task.resume()
             } else {
@@ -703,17 +773,17 @@ extension Branddrop {
                 if let arrLocations = response?["data"] as? [[String : Any]], error == nil {
                     var locationList: [[String: Any]] = []
                     /*
-//                    for location in arrLocations {
-//                        let geoFenceLocation = ["longitude":(location["coordinates"] as? [[String: Any]])?.first?["longitude"] ?? "", "latitude":(location["coordinates"] as? [[String: Any]])?.first?["latitude"] ?? "", "locationId": location["id"]!, "radius": location["radius"] as? Int ?? 100, "lastNotificationDate":""] as [String: Any]
-//                        locationList.append(geoFenceLocation)
-//                    }
-                    for location in arrLocations {
-                        let coordinatesArr: [[String: Any]] = location["coordinates"] as? [[String: Any]] ?? []
-                        for coord in coordinatesArr {
-                            let geoFenceLocation = ["longitude":coord["longitude"] ?? "", "latitude":coord["latitude"] ?? "", "locationId": location["id"]!, "radius": location["radius"] as? Int ?? 100, "lastNotificationDate":"", "placeName":location["placeName"] ?? ""] as [String: Any]
-                            locationList.append(geoFenceLocation)
-                        }
-                    } */
+                     //                    for location in arrLocations {
+                     //                        let geoFenceLocation = ["longitude":(location["coordinates"] as? [[String: Any]])?.first?["longitude"] ?? "", "latitude":(location["coordinates"] as? [[String: Any]])?.first?["latitude"] ?? "", "locationId": location["id"]!, "radius": location["radius"] as? Int ?? 100, "lastNotificationDate":""] as [String: Any]
+                     //                        locationList.append(geoFenceLocation)
+                     //                    }
+                     for location in arrLocations {
+                     let coordinatesArr: [[String: Any]] = location["coordinates"] as? [[String: Any]] ?? []
+                     for coord in coordinatesArr {
+                     let geoFenceLocation = ["longitude":coord["longitude"] ?? "", "latitude":coord["latitude"] ?? "", "locationId": location["id"]!, "radius": location["radius"] as? Int ?? 100, "lastNotificationDate":"", "placeName":location["placeName"] ?? ""] as [String: Any]
+                     locationList.append(geoFenceLocation)
+                     }
+                     } */
                     self.removeGeofenceLocations()
                     for location in arrLocations {
                         let coordinatesArr: [[String: Any]] = location["coordinates"] as? [[String: Any]] ?? []
@@ -764,7 +834,7 @@ extension Branddrop {
         area = area/2.0
         return area
     }
-
+    
     func polygonCenterOfMass(polygon: [CGPoint]) -> CGPoint {
         let nr = polygon.count
         var centerX: CGFloat = 0
@@ -809,12 +879,12 @@ extension Branddrop {
         if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             print("Geofence not supported.")
             return
-         }
+        }
         let region = CLCircularRegion(
             center: CLLocationCoordinate2DMake(location.latitude ?? 0.0, location.longitude ?? 0.0),
             radius: CLLocationDistance(location.radius ?? geofenceRadius),
             identifier: location.locationId!)
-
+        
         region.notifyOnEntry = true
         region.notifyOnExit = false
         locationManager.requestAlwaysAuthorization()
@@ -823,7 +893,7 @@ extension Branddrop {
     
     public func stopMonitoring(region: CLRegion) {
         guard
-          let circularRegion = region as? CLCircularRegion
+            let circularRegion = region as? CLCircularRegion
         else { return }
         locationManager.stopMonitoring(for: circularRegion)
         print("geoFenceLocations: ", userDefaults?.value(forKey: String.ConfigKeys.geoFenceLocations) as? [[String: Any]])
