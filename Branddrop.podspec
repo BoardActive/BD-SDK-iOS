@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Branddrop'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = 'Location-based notifications for personalized user engagement and retention campaigns.'
   s.description      = 'BrandDrop iOS SDK, for integrating into you iOS application. The SDK supports iOS 10.0]+'
   s.homepage         = 'https://branddrop.us'
