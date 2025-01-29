@@ -105,13 +105,13 @@ public class Branddrop: NSObject, CLLocationManagerDelegate {
         Branddrop.client.locationManager.activityType = .otherNavigation
     }
     
-    private func setWalkingMode() {
+    public func setWalkingMode() {
         Branddrop.client.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         Branddrop.client.locationManager.distanceFilter = 10
         Branddrop.client.locationManager.activityType = .fitness
         isUserDriving = false
     }
-    private func setDrivingMode() {
+    public func setDrivingMode() {
         Branddrop.client.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         Branddrop.client.locationManager.distanceFilter = 50
         Branddrop.client.locationManager.activityType = .automotiveNavigation
